@@ -239,6 +239,15 @@ const utils = {
 
                 break;
 
+            case "updateAccount":
+                if (!(typeof options.only_confirmed === 'boolean')) options.only_confirmed = false;
+                if (!(typeof options.only_unconfirmed === 'boolean')) options.only_unconfirmed = false;
+
+                url = `${params.version}
+        /accounts/${params.address}?filter=only_confirmed:${options.only_confirmed}
+        ,only_unconfirmed:${options.only_unconfirmed}`;
+                break;
+
             case "getTransactionsByAddress":
                 if (!(typeof options.only_to === 'boolean')) options.only_to = false;
                 if (!(typeof options.only_from === 'boolean')) options.only_from = false;
