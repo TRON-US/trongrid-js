@@ -35,7 +35,6 @@ export default class Trx {
         };
 
         const url = utils.processUrl("getAccountByAddress", options, params, callback);
-        if (url === null) return callback('There has been an error');
 
         this.tronWeb.fullNode.request(url, 'get').then(account => {
             callback(null, account);
@@ -66,10 +65,35 @@ export default class Trx {
         };
 
         const url = utils.processUrl("getTransactionsByAddress", options, params, callback);
-        if (url === null) return callback('There has been an error');
 
         this.tronWeb.fullNode.request(url, 'get').then(transactions => {
             callback(null, transactions);
+        }).catch(err => callback(err));
+    }
+
+    getAssetsByIdentifier(identifier = false, options = {}, callback = false) {
+        if (utils.isFunction(identifier)) {
+            callback = identifier;
+            identifier = this.defaultAddress;
+        }
+
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if (!callback)
+            return this.injectPromise(this.getAssetsByIdentifier, identifier, options);
+
+        const params = {
+            version: this.trongrid.apiVersion,
+            identifier: identifier
+        };
+
+        const url = utils.processUrl("getAssetsByIdentifier", options, params, callback);
+
+        this.tronWeb.fullNode.request(url, 'get').then(assets => {
+            callback(null, assets);
         }).catch(err => callback(err));
     }
 };

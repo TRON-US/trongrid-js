@@ -237,12 +237,10 @@ const utils = {
                 if (options.limit > 200) return callback('Limit must be less than 200');
 
                 url = `${params.version}
-        /accounts/${address}/transactions?filter=only_to:${options.only_to},only_from:${options.only_from},only_confirmed:${options.only_confirmed}
-        ,only_unconfirmed:${options.only_unconfirmed}&limit=${options.limit}`;
+        /accounts/${address}/transactions?filter=only_to:${options.only_to},only_from:${options.only_from}
+        ,only_confirmed:${options.only_confirmed},only_unconfirmed:${options.only_unconfirmed}&limit=${options.limit}`;
 
-                if (typeof options.fingerprint === "string") {
-                    url = url + `&fingerprint=${options.fingerprint}`;
-                }
+                if (typeof options.fingerprint === "string") url = url + `&fingerprint=${options.fingerprint}`;
 
                 const fieldsParam = this.processFields(options);
                 if (fieldsParam !== null) url = url + fieldsParam;
@@ -255,8 +253,29 @@ const utils = {
                 }
 
                 break;
+
+            case "getAssetsByIdentifier":
+                if (!(typeof options.only_confirmed === 'boolean')) options.only_confirmed = false;
+                if (!(typeof options.only_unconfirmed === 'boolean')) options.only_unconfirmed = false;
+
+                if (!(typeof options.is_name === 'boolean')) options.is_name = false;
+
+                if (!(Number.isInteger(options.limit))) options.limit = 20;
+                if (options.limit <= 0) return callback('Limit must be greater than 0');
+                if (options.limit > 200) return callback('Limit must be less than 200');
+
+                url = `${params.version}
+        /assets/${params.identifier}?filter=only_confirmed:${options.only_confirmed}
+        ,only_unconfirmed:${options.only_unconfirmed}&is_name=${options.is_name}&limit=${options.limit}`;
+
+                if (typeof options.fingerprint === "string") url = url + `&fingerprint=${options.fingerprint}`;
+
+                if (typeof options.sort === "string") url = url + `&sort=${options.sort}`;
+
+                break;
+
             default:
-                return null;
+                return callback('Unable to construct url for request.');
         }
 
         return url;
