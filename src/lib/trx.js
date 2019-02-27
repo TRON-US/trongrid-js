@@ -105,6 +105,41 @@ export default class Trx {
         }).catch(err => callback(err));
     }
 
+    updateAccount(address = false, name = false, options = {}, callback = false) {
+        if (utils.isFunction(address)) {
+            callback = address;
+            address = this.defaultAddress;
+        }
+
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if (!callback)
+            return this.injectPromise(this.updateAccount, address, name, options);
+
+        if (!this.trongrid.isAddress(address))
+            return callback('Invalid address provided');
+        if (!(typeof name === "string")) return callback('Name provided mus be a string');
+
+        address = this.trongrid.address.toHex(address);
+        const params = {
+            version: this.trongrid.apiVersion,
+            address: address
+        };
+
+        const url = utils.processUrl("updateAccount", options, params, callback);
+
+        const payload = {
+            name: name
+        };
+
+        this.tronWeb.fullNode.request(url, payload, 'put').then(account => {
+            callback(null, account);
+        }).catch(err => callback(err));
+    }
+
     getTransactionsByAddress(address = false, options = {}, callback = false) {
         if (utils.isFunction(address)) {
             callback = address;
