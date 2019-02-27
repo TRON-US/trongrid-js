@@ -30,6 +30,7 @@ export default class Trx {
 
         address = this.trongrid.address.toHex(address);
         const params = {
+            version: this.trongrid.apiVersion,
             address: address
         };
 
@@ -60,6 +61,7 @@ export default class Trx {
 
         address = this.trongrid.address.toHex(address);
         const params = {
+            version: this.trongrid.apiVersion,
             address: address
         };
 

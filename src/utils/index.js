@@ -221,7 +221,7 @@ const utils = {
                 if (!(typeof options.only_confirmed === 'boolean')) options.only_confirmed = false;
                 if (!(typeof options.only_unconfirmed === 'boolean')) options.only_unconfirmed = false;
 
-                url = `${this.trongrid.apiVersion}
+                url = `${params.version}
         /accounts/${params.address}?filter=Show_assets:${options.Show_assets},only_confirmed:${options.only_confirmed}
         ,only_unconfirmed:${options.only_unconfirmed}`;
 
@@ -235,6 +235,10 @@ const utils = {
                 if (!(Number.isInteger(options.limit))) options.limit = 20;
                 if (options.limit <= 0) return callback('Limit must be greater than 0');
                 if (options.limit > 200) return callback('Limit must be less than 200');
+
+                url = `${params.version}
+        /accounts/${address}/transactions?filter=only_to:${options.only_to},only_from:${options.only_from},only_confirmed:${options.only_confirmed}
+        ,only_unconfirmed:${options.only_unconfirmed}&limit=${options.limit}`;
 
                 if (typeof options.fingerprint === "string") {
                     url = url + `&fingerprint=${options.fingerprint}`;
