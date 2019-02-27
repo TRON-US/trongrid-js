@@ -7,6 +7,31 @@ import * as abi from './abi';
 
 import validator from 'validator';
 import BigNumber from 'bignumber.js';
+import TronWeb from "tronweb";
+
+const NET = {
+    MAIN: "main",
+    TEST: "test"
+};
+
+const nets = {
+    main: {
+        name: "main",
+        fullNode: "https://api.trongrid.io",
+        solidityNode: "https://api.trongrid.io",
+        eventServer: "https://api.trongrid.io",
+        defaultAddress: "4142232FF1BDDD5F01C948C9A661E43308648CFEB2"
+    },
+    test: {
+        name: "test",
+        fullNode: "https://api.shasta.trongrid.io",
+        solidityNode: "https://api.shasta.trongrid.io",
+        eventServer: "https://api.shasta.trongrid.io",
+        defaultAddress: "41928C9AF0651632157EF27A2CF17CA72C575A4D21"
+    }
+};
+
+module.exports = nets;
 
 const utils = {
     isValidURL(url) {
@@ -141,8 +166,52 @@ const utils = {
 
     isNotNullOrUndefined(val) {
         return val !== null && typeof val !== 'undefined';
+    },
+
+    configureNet(net) {
+        let tronweb;
+        let defaultAddress;
+
+        if (typeof net === 'object') {
+            tronweb = new TronWeb(
+                net.fullNode,
+                net.solidityNode,
+                net.eventServer
+            );
+            defaultAddress = net.defaultAddress;
+        }
+        else {
+            switch (net) {
+                case NET.MAIN:
+                    tronweb = new TronWeb(
+                        nets.main.fullNode,
+                        nets.main.solidityNode,
+                        nets.main.eventServer
+                    );
+                    defaultAddress = nets.main.defaultAddress;
+                    break;
+                case NET.TEST:
+                    tronweb = new TronWeb(
+                        nets.test.fullNode,
+                        nets.test.solidityNode,
+                        nets.test.eventServer
+                    );
+                    defaultAddress = nets.test.defaultAddress;
+                    break;
+                default:
+                    throw new Error("Invalid net");
+            }
+        }
+
+        this.tronweb = tronweb;
+        this.defaultAddress = defaultAddress;
+
+        return {
+            tronweb: tronweb,
+            defaultAddress: defaultAddress
+        }
     }
-}
+};
 
 export default {
     ...utils,
