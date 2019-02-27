@@ -233,6 +233,12 @@ const utils = {
 
                 break;
 
+            case "createNewAccount":
+                url = `${params.version}
+        /accounts`;
+
+                break;
+
             case "getTransactionsByAddress":
                 if (!(typeof options.only_to === 'boolean')) options.only_to = false;
                 if (!(typeof options.only_from === 'boolean')) options.only_from = false;
