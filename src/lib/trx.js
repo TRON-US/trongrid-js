@@ -71,6 +71,39 @@ export default class Trx {
         }).catch(err => callback(err));
     }
 
+    createNewAccount(creatorAddress = false, newAddress = false, callback = false) {
+        if (utils.isFunction(address)) {
+            callback = address;
+            creatorAddress = this.defaultAddress;
+        }
+
+        if (!callback)
+            return this.injectPromise(this.createNewAccount, creatorAddress, newAddress);
+
+        if (!this.trongrid.isAddress(creatorAddress))
+            return callback('Invalid creator address provided');
+
+        if (!this.trongrid.isAddress(address))
+            return callback('Invalid new address provided');
+
+        creatorAddress = this.trongrid.address.toHex(creatorAddress);
+        newAddress = this.trongrid.address.toHex(newAddress);
+
+        const params = {
+            version: this.trongrid.apiVersion
+        };
+
+        const url = utils.processUrl("createNewAccount", null, params, callback);
+
+        const payload = {
+            creator: creatorAddress,
+            address: newAddress
+        };
+
+        this.tronWeb.fullNode.request(url, payload, 'post').then(account => {
+            callback(null, account);
+        }).catch(err => callback(err));
+    }
 
     getTransactionsByAddress(address = false, options = {}, callback = false) {
         if (utils.isFunction(address)) {
