@@ -29,17 +29,45 @@ export default class Trx {
             return callback('Invalid address provided');
 
         address = this.trongrid.address.toHex(address);
+        const params = {
+            address: address
+        };
 
-        if (!(typeof options.Show_assets === 'boolean')) options.Show_assets = false;
-        if (!(typeof options.only_confirmed === 'boolean')) options.only_confirmed = false;
-        if (!(typeof options.only_unconfirmed === 'boolean')) options.only_unconfirmed = false;
-
-        const url = `${this.trongrid.apiVersion}
-        /accounts/${address}?filter=Show_assets:${options.Show_assets},only_confirmed:${options.only_confirmed}
-        ,only_unconfirmed:${options.only_unconfirmed}`;
+        const url = utils.processUrl("getAccountByAddress", options, params, callback);
+        if (url === null) return callback('There has been an error');
 
         this.tronWeb.fullNode.request(url, 'get').then(account => {
             callback(null, account);
+        }).catch(err => callback(err));
+    }
+
+    getTransactionsByAddress(address = false, options = {}, callback = false) {
+        if (utils.isFunction(address)) {
+            callback = address;
+            address = this.defaultAddress;
+        }
+
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if (!callback)
+            return this.injectPromise(this.getTransactionsByAddress, address, options);
+
+        if (!this.trongrid.isAddress(address))
+            return callback('Invalid address provided');
+
+        address = this.trongrid.address.toHex(address);
+        const params = {
+            address: address
+        };
+
+        const url = utils.processUrl("getTransactionsByAddress", options, params, callback);
+        if (url === null) return callback('There has been an error');
+
+        this.tronWeb.fullNode.request(url, 'get').then(transactions => {
+            callback(null, transactions);
         }).catch(err => callback(err));
     }
 };
