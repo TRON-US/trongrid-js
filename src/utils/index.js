@@ -35,7 +35,7 @@ module.exports = nets;
 
 const utils = {
     isValidURL(url) {
-        if(typeof url !== 'string')
+        if (typeof url !== 'string')
             return false;
         return validator.isURL(url.toString(), {
             protocols: ['http', 'https']
@@ -81,7 +81,7 @@ const utils = {
     },
 
     isInteger(number) {
-        if(number === null)
+        if (number === null)
             return false
         return Number.isInteger(
             Number(number)
@@ -101,7 +101,7 @@ const utils = {
     injectPromise(func, ...args) {
         return new Promise((resolve, reject) => {
             func(...args, (err, res) => {
-                if(err)
+                if (err)
                     reject(err);
                 else resolve(res);
             });
@@ -127,23 +127,23 @@ const utils = {
     },
 
     parseEvent(event, {inputs: abi}) {
-        if(!event.result)
+        if (!event.result)
             return event;
 
-        if(this.isObject(event.result)) {
-            for(var i = 0; i < abi.length; i++) {
+        if (this.isObject(event.result)) {
+            for (var i = 0; i < abi.length; i++) {
                 let obj = abi[i];
-                if(obj.type == 'address' && obj.name in event.result)
+                if (obj.type == 'address' && obj.name in event.result)
                     event.result[obj.name] = '41' + event.result[obj.name].substr(2).toLowerCase();
             }
-        } else if(this.isArray(event.result)) {
+        } else if (this.isArray(event.result)) {
             event.result = event.result.reduce((obj, result, index) => {
                 const {
                     name,
                     type
                 } = abi[index];
 
-                if(type == 'address')
+                if (type == 'address')
                     result = '41' + result.substr(2).toLowerCase();
 
                 obj[name] = result;
@@ -210,6 +210,70 @@ const utils = {
             tronweb: tronweb,
             defaultAddress: defaultAddress
         }
+    },
+
+    processUrl(id, options, params, callback) {
+        let url;
+
+        switch (id) {
+            case "getAccountByAddress":
+                if (!(typeof options.Show_assets === 'boolean')) options.Show_assets = false;
+                if (!(typeof options.only_confirmed === 'boolean')) options.only_confirmed = false;
+                if (!(typeof options.only_unconfirmed === 'boolean')) options.only_unconfirmed = false;
+
+                url = `${params.version}
+        /accounts/${params.address}?filter=Show_assets:${options.Show_assets},only_confirmed:${options.only_confirmed}
+        ,only_unconfirmed:${options.only_unconfirmed}`;
+
+                break;
+            case "getTransactionsByAddress":
+                if (!(typeof options.only_to === 'boolean')) options.only_to = false;
+                if (!(typeof options.only_from === 'boolean')) options.only_from = false;
+                if (!(typeof options.only_confirmed === 'boolean')) options.only_confirmed = false;
+                if (!(typeof options.only_unconfirmed === 'boolean')) options.only_unconfirmed = false;
+
+                if (!(Number.isInteger(options.limit))) options.limit = 20;
+                if (options.limit <= 0) return callback('Limit must be greater than 0');
+                if (options.limit > 200) return callback('Limit must be less than 200');
+
+                url = `${params.version}
+        /accounts/${address}/transactions?filter=only_to:${options.only_to},only_from:${options.only_from},only_confirmed:${options.only_confirmed}
+        ,only_unconfirmed:${options.only_unconfirmed}&limit=${options.limit}`;
+
+                if (typeof options.fingerprint === "string") {
+                    url = url + `&fingerprint=${options.fingerprint}`;
+                }
+
+                const fieldsParam = this.processFields(options);
+                if (fieldsParam !== null) url = url + fieldsParam;
+
+                if (typeof options.sort === "string") url = url + `&sort=${options.sort}`;
+
+                if (Number.isInteger(options.from_timestamp)) {
+                    if (options.from_timestamp <= 0) return callback('Timestamp must be greater than 0');
+                    url = url + `&from_timestamp=${options.from_timestamp}`;
+                }
+
+                break;
+            default:
+                return null;
+        }
+
+        return url;
+    },
+
+    processFields(options) {
+        if (options.fields === Array && options.fields.length !== 0) {
+            let fieldsParam = "&fields=";
+            for (let i = 0; i < options.fields.length; i++) {
+                const field = options.fields[i];
+                if (typeof field === "string") fieldsParam = fieldsParam + field + ",";
+            }
+
+            return fieldsParam.slice(0, -1);
+        }
+
+        return null;
     }
 };
 
