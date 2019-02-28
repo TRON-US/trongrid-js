@@ -1,5 +1,3 @@
-
-
 class Base {
 
     constructor(tronGrid) {
@@ -9,9 +7,9 @@ class Base {
         this.tronWeb = tronGrid.tronWeb;
         this.injectPromise = this.tronWeb.utils.promiseInjector(this);
         this.apiNode = this.tronWeb.eventServer;
-        this.utils = this.tronWeb.utils
+        this.utils = this.tronWeb.utils;
     }
 
 }
 
-module.exports = Base
+export default Base

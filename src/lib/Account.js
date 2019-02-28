@@ -1,8 +1,7 @@
-
 import Base from './Base';
 let utils;
 
-class Account extends Base {
+export default class Account extends Base {
 
     constructor(tronGrid) {
         super(tronGrid);
