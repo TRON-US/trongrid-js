@@ -21,7 +21,7 @@ export default class Asset extends Base {
             options = {};
         }
 
-        if (!identifier)
+        if (!identifier || !(utils.isString(identifier) || utils.isInteger(identifier)))
             return callback('Invalid identifier provided');
 
         // TODO validate the options
