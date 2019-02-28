@@ -1,5 +1,7 @@
 var utils
 
+import Accounts from './lib/Account';
+
 class TronGrid {
 
     constructor(tronWeb = false) {
@@ -7,6 +9,8 @@ class TronGrid {
             throw new Error('Expected instance of TronWeb');
 
         this.tronWeb = tronWeb;
+        this.accounts = new Accounts(this);
+
         this.injectPromise = tronWeb.utils.promiseInjector(this);
         this.apiNode = tronWeb.eventServer;
         utils = tronWeb.utils
