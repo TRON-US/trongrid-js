@@ -15,7 +15,7 @@ export default class Asset extends Base {
      * @param callback
      * @returns list of assets
      */
-    getByIdentifier(identifier = false, options = {}, callback = false) {
+    get(identifier = false, options = {}, callback = false) {
         if (utils.isFunction(options)) {
             callback = options;
             options = {};
@@ -26,7 +26,7 @@ export default class Asset extends Base {
 
         // TODO validate the options
         if (!callback)
-            return this.injectPromise(this.getAssetsByIdentifier, identifier, options);
+            return this.injectPromise(this.get, identifier, options);
 
         this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(({assetIssue = []}) => {
             callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))

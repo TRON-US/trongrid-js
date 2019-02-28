@@ -15,7 +15,7 @@ export default class Account extends Base {
      * @param callback
      * @returns account
      */
-    getByAddress(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
+    get(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
 
         if (utils.isFunction(options)) {
             callback = options;
@@ -29,7 +29,7 @@ export default class Account extends Base {
         }
 
         if (!callback)
-            return this.injectPromise(this.getAccountByAddress, address, options);
+            return this.injectPromise(this.get, address, options);
 
         if (!this.tronWeb.isAddress(address))
             return callback('Invalid address provided');
@@ -50,7 +50,7 @@ export default class Account extends Base {
      * @param callback
      * @returns list of transactions
      */
-    getTransactionsByAddress(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
+    getTransactions(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
         if (utils.isFunction(options)) {
             callback = options;
             options = {};
@@ -63,7 +63,7 @@ export default class Account extends Base {
         }
 
         if (!callback)
-            return this.injectPromise(this.getTransactionsByAccountAddress, address, options);
+            return this.injectPromise(this.getTransactions, address, options);
 
         // TODO validate the options
 
