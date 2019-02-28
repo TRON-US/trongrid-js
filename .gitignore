@@ -1,8 +1,7 @@
-.next
 node_modules
 .DS_Store
 package-lock.json
-test/setup/TronWeb.js
 coverage
 yarn-error.log
 /dist
+.idea

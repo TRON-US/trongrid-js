@@ -1,35 +1,16 @@
 {
     "name": "trongrid-js",
     "version": "1.0.0",
-    "description": "JavaScript SDK that encapsulates the TRON Node HTTP API",
-    "main": "dist/TronWeb.node.js",
+    "description": "JavaScript SDK that encapsulates the TG3 HTTP API",
+    "main": "dist/trongrid.node.js",
     "scripts": {
-        "prepare": "npm run build",
         "build": "npm run clean && webpack --config webpack.config.js --progress --colors",
         "clean": "rimraf dist",
-        "example": "node ./examples/server",
-        "test:browser": "node scripts/test-browser.js && npx karma start --single-run --browsers ChromeHeadless,Firefox,Edge",
-        "test:node": "node scripts/test-node.js && node test/helpers/newAccounts 10 && npx mocha 'test/**/*.test.js'",
-        "test": "node test/helpers/newAccounts 5 && npm run-script test:browser && npm run-script test:node",
         "build:dev": "NODE_ENV=development npm run build"
-    },
-    "husky": {
-        "hooks": {
-            "pre-push": "node ./scripts/pre-push.js"
-        }
     },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
-        "axios": "^0.18.0",
-        "babel-runtime": "^6.26.0",
-        "bignumber.js": "^7.2.1",
-        "elliptic": "^6.4.1",
-        "ethers": "^4.0.7",
-        "eventemitter3": "^3.1.0",
-        "js-sha3": "^0.8.0",
-        "jssha": "^2.3.1",
-        "tronweb": "^2.1.32",
-        "validator": "^10.7.1"
+        "babel-runtime": "^6.26.0"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
@@ -42,47 +23,21 @@
         "babel-minify-webpack-plugin": "^0.3.1",
         "babel-plugin-istanbul": "^5.0.1",
         "babel-plugin-source-map-support": "^2.0.1",
-        "chai": "^4.1.2",
-        "chalk": "^2.4.1",
-        "eth-sig-util": "^2.1.0",
-        "globby": "^8.0.1",
-        "grunt": "^1.0.3",
-        "grunt-cli": "^1.3.1",
-        "grunt-karma": "^3.0.0",
-        "husky": "^1.0.0-rc.14",
-        "istanbul": "^0.4.5",
-        "istanbul-instrumenter-loader": "^3.0.1",
-        "karma": "^3.0.0",
-        "karma-chrome-launcher": "^2.2.0",
-        "karma-coverage": "^1.1.2",
-        "karma-coverage-istanbul-reporter": "^2.0.4",
-        "karma-edge-launcher": "^0.4.2",
-        "karma-firefox-launcher": "^1.1.0",
-        "karma-mocha": "^1.3.0",
-        "karma-sourcemap-loader": "^0.3.7",
-        "karma-spec-reporter": "^0.0.32",
-        "karma-webpack": "4.0.0-rc.2",
-        "matchdep": "^2.0.0",
-        "mocha": "^5.2.0",
-        "puppeteer": "^1.8.0",
-        "rimraf": "^2.6.2",
-        "sleep": "^5.1.1",
-        "source-map-support": "^0.5.9",
         "webpack": "^4.17.2",
         "webpack-cli": "^3.1.0",
         "webpack-node-externals": "^1.7.2"
     },
     "author": {
-        "name": "Kondax",
-        "url": "https://github.com/Kondax"
+        "name": "Wyatt && Jackie",
+        "url": "https://github.com/xxx"
     },
     "contributors": [
         {
             "name": "TRON",
-            "url": "https://github.com/tronprotocol"
+            "url": "https://github.com/Tron-US"
         }
     ],
-    "homepage": "https://github.com/tronprotocol/tron-web",
+    "homepage": "https://github.com/TRON-US/trongrid-js",
     "license": "MIT",
-    "repository": "https://github.com/tronprotocol/tron-web.git"
+    "repository": "https://github.com/TRON-US/trongrid-js.git"
 }
