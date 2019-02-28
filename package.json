@@ -2,7 +2,7 @@
     "name": "trongrid-js",
     "version": "1.0.0",
     "description": "JavaScript SDK that encapsulates the TG3 HTTP API",
-    "main": "dist/TronGrid.node.js",
+    "main": "dist/trongrid.node.js",
     "scripts": {
         "build": "npm run clean && webpack --config webpack.config.js --progress --colors",
         "clean": "rimraf dist",
