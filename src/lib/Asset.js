@@ -15,7 +15,7 @@ export default class Asset extends Base {
      * @param callback
      * @returns list of assets
      */
-    getAssetsByIdentifier(identifier = false, options = {}, callback = false) {
+    getByIdentifier(identifier = false, options = {}, callback = false) {
         if (utils.isFunction(options)) {
             callback = options;
             options = {};
