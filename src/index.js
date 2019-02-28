@@ -1,66 +1,106 @@
-import utils from 'utils';
-import Trx from 'lib/trx';
+var utils
 
 class TronGrid {
-    static Trx = Trx;
 
-    constructor(net) {
-        const network = utils.configureNet(net);
+    constructor(tronWeb = false) {
+        if (!tronWeb)
+            throw new Error('Expected instance of TronWeb');
 
-        this.tronweb = network.tronweb;
-        this.defaultAddress = network.defaultAddress;
-        this.utils = utils;
-        this.apiVersion = "v1";
-        this.trx = new Trx(this);
+        this.tronWeb = tronWeb;
+        this.injectPromise = tronWeb.utils.promiseInjector(this);
+        this.apiNode = tronWeb.eventServer;
+        utils = tronWeb.utils
     }
 
-    static isAddress(address = false) {
-        if(!utils.isString(address))
-            return false;
+    /**
+     * TODO Multiple User-Face Methods
+     */
 
-        if(address.length === 42) {
-            try {
-                return this.isAddress(
-                    utils.crypto.getBase58CheckAddress(
-                        utils.code.hexStr2byteArray(address)
-                    )
-                );
-            } catch (err) {
-                return false;
-            }
+
+    /**
+     * TG API: /v1/accounts/:address
+     * @param address (hex or base58 format)
+     * @param options (filters: Show_assets, only_confirmed, only_unconfirmed)
+     * @param callback
+     * @returns account
+     */
+    getAccountByAddress(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
+        if (utils.isString(address)) {
+            callback = address;
+            address = this.tronWeb.defaultAddress;
         }
-        try {
-            return utils.crypto.isAddressValid(address);
-        } catch (err) {
-            return false;
+
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
         }
+
+        if (!callback)
+            return this.injectPromise(this.getAccountByAddress, address, options);
+
+        if (!this.tronWeb.isAddress(address))
+            return callback('Invalid address provided');
+
+        this.apiNode.request(`v1/accounts/${address}`, options, 'get').then(account => {
+            callback(null, account);
+        }).catch(err => callback(err));
     }
 
-    static address() {
-        return {
-            fromHex(address) {
-                if(!utils.isHex(address))
-                    return address;
 
-                return utils.crypto.getBase58CheckAddress(
-                    utils.code.hexStr2byteArray(address.replace(/^0x/,'41'))
-                );
-            },
-            toHex(address) {
-                if(utils.isHex(address))
-                    return address.toLowerCase().replace(/^0x/, '41');
-
-                return utils.code.byteArray2hexStr(
-                    utils.crypto.decodeBase58Address(address)
-                ).toLowerCase();
-            },
-            fromPrivateKey(privateKey) {
-                try {
-                    return utils.crypto.pkToAddress(privateKey);
-                } catch {
-                    return false;
-                }
-            }
+    /**
+     * TG API: /v1/assets/:identifier
+     * @param identifier (asset ID, its name, or issuer address)
+     * @param options (is_name, limit, fingerprint, sort, filter)
+     * @param callback
+     * @returns list of assets
+     */
+    getAssetsByIdentifier(identifier = false, options = {}, callback = false) {
+        if (utils.isString(identifier)) {
+            callback = identifier;
         }
+
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if (!callback)
+            return this.injectPromise(this.getAssetsByIdentifier, identifier, options);
+
+        this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(({assetIssue = []}) => {
+            callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))
+        }).catch(err => callback(err))
+    }
+
+
+    /**
+     * TG3 API: /v1/accounts/:address/transactions
+     * @param address
+     * @param options
+     * @param callback
+     * @returns list of transactions
+     */
+    getTransactionsByAccountAddress(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
+        if (utils.isString(address)) {
+            callback = address;
+            address = this.tronWeb.defaultAddress;
+        }
+
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if (!callback)
+            return this.injectPromise(this.getTransactionsByAccountAddress, address, options);
+
+        if (!this.tronWeb.isAddress(address))
+            return callback('Invalid address provided');
+
+        this.apiNode.request(`v1/accounts/${address}/transactions`, {
+            options
+        }, 'get').then(({transaction}) => {
+            callback(null, transaction);
+        }).catch(err => callback(err));
     }
 }
