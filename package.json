@@ -8,11 +8,6 @@
         "clean": "rimraf dist",
         "build:dev": "NODE_ENV=development npm run build"
     },
-    "husky": {
-        "hooks": {
-            "pre-push": "node ./scripts/pre-push.js"
-        }
-    },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
         "babel-runtime": "^6.26.0"
