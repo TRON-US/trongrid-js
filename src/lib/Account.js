@@ -75,7 +75,7 @@ export default class Account extends Base {
 
         this.apiNode.request(`v1/accounts/${address}/transactions`, {
             options
-        }, 'get').then(({transaction}) => {
+        }, 'get').then(transaction => {
             callback(null, transaction);
         }).catch(err => callback(err));
     }
