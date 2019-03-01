@@ -1,4 +1,4 @@
-var utils
+let utils;
 
 import Account from 'lib/Account';
 import Asset from 'lib/Asset'

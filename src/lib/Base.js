@@ -7,10 +7,10 @@ class Base {
             throw new Error('Expected instance of TronGrid');
 
         this.tronWeb = tronGrid.tronWeb;
-        this.injectPromise = this.tronWeb.tronWebUtils.promiseInjector(this);
+        this.injectPromise = this.tronWeb.utils.promiseInjector(this);
         this.apiNode = this.tronWeb.eventServer;
         this.utils = utils;
-        this.tronWebUtils = this.tronWeb.tronWebUtils;
+        this.tronWebUtils = this.tronWeb.utils;
     }
 
 }
