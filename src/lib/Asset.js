@@ -5,7 +5,7 @@ export default class Asset extends Base {
 
     constructor(tronGrid) {
         super(tronGrid);
-        utils = this.utils
+        utils = this.tronWebUtils
     }
 
     /**

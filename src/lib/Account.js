@@ -1,11 +1,14 @@
 import Base from './Base';
+
 let utils;
+let tronWebUtils;
 
 export default class Account extends Base {
 
     constructor(tronGrid) {
         super(tronGrid);
-        utils = this.utils
+        utils = this.utils;
+        tronWebUtils = this.tronWebUtils
     }
 
     /**
@@ -17,12 +20,12 @@ export default class Account extends Base {
      */
     get(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
 
-        if (utils.isFunction(options)) {
+        if (tronWebUtils.isFunction(options)) {
             callback = options;
             options = {};
         }
 
-        if (utils.isFunction(address)) {
+        if (tronWebUtils.isFunction(address)) {
             callback = address;
             address = this.tronWeb.defaultAddress;
             options = {};
@@ -34,7 +37,8 @@ export default class Account extends Base {
         if (!this.tronWeb.isAddress(address))
             return callback('Invalid address provided');
 
-        // TODO validate the options
+        options = utils.validateOptions('get', options);
+
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
@@ -51,12 +55,12 @@ export default class Account extends Base {
      * @returns list of transactions
      */
     getTransactions(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
-        if (utils.isFunction(options)) {
+        if (tronWebUtils.isFunction(options)) {
             callback = options;
             options = {};
         }
 
-        if (utils.isFunction(address)) {
+        if (tronWebUtils.isFunction(address)) {
             callback = address;
             address = this.tronWeb.defaultAddress;
             options = {};
