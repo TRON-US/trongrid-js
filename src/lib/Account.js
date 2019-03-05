@@ -37,7 +37,7 @@ export default class Account extends Base {
         if (!this.tronWeb.isAddress(address))
             return callback('Invalid address provided');
 
-        options = utils.validateOptions('get', options);
+        options = utils.validateOptions('getAccount', options);
 
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
