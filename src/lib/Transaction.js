@@ -9,6 +9,12 @@ export default class Transaction extends Base {
         tronWebUtils = this.tronWebUtils
     }
 
+    /**
+     * TG API: /transaction/:id
+     * @param transactionID
+     * @param callback
+     * @returns list of events
+     */
     getEvents(transactionID = false, callback = false) {
 
         if(!callback)

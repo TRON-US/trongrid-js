@@ -10,6 +10,13 @@ export default class Contract extends Base {
         tronWebUtils = this.tronWebUtils
     }
 
+    /**
+     * TG API: /contract/:contractAddress/:eventName/:blockNumber
+     * @params contractAddress
+     * @params options(since, eventName, blockNumber, size, sort, onlyConfirmed, onlyUnconfirmed, previousFingerprint, rawResponse)
+     * @params callback
+     * @returns list of events
+     */
     getEvents(...params) {
 
         if (typeof params[1] !== 'object') {
