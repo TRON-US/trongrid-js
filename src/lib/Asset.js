@@ -1,14 +1,12 @@
 import Base from './Base';
 
 let utils;
-let tronWebUtils;
 
 export default class Asset extends Base {
 
     constructor(tronGrid) {
         super(tronGrid);
         utils = this.utils;
-        tronWebUtils = this.tronWebUtils
     }
 
     /**
@@ -19,12 +17,12 @@ export default class Asset extends Base {
      * @returns list of assets
      */
     get(identifier = false, options = {}, callback = false) {
-        if (tronWebUtils.isFunction(options)) {
+        if (utils.isFunction(options)) {
             callback = options;
             options = {};
         }
 
-        if (!identifier || !(tronWebUtils.isString(identifier) || tronWebUtils.isInteger(identifier)))
+        if (!identifier || !(utils.isString(identifier) || utils.isInteger(identifier)))
             return callback('Invalid identifier provided');
 
         // TODO validate the options

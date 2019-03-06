@@ -1,12 +1,12 @@
 import Base from './Base';
 
-let tronWebUtils;
+let utils;
 
 export default class Block extends Base {
 
     constructor(tronGrid) {
         super(tronGrid);
-        tronWebUtils = this.tronWebUtils
+        utils = this.utils
     }
 
     /**
@@ -23,15 +23,15 @@ export default class Block extends Base {
         if(!this.tronWeb.eventServer)
             return callback('No event server configured');
 
-        return this.tronWeb.eventServer.request(`events/blockevent/${blockNumber}`).then((data = false) => {
+        return this.tronWeb.eventServer.request(`v1/blocks/${blockNumber}/events`).then((data = false) => {
             if(!data)
                 return callback('Unknown error occurred');
 
-            if(!tronWebUtils.isArray(data))
+            if(!utils.isArray(data))
                 return callback(data);
 
             return callback(null,
-                data.map(event => tronWebUtils.mapEvent(event))
+                data.map(event => utils.mapEvent(event))
             );
         }).catch(err => callback((err.response && err.response.data) || err));
     }

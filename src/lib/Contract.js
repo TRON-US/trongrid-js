@@ -1,50 +1,26 @@
 import Base from './Base';
 import querystring from 'querystring';
 
-let tronWebUtils;
+let utils;
 
 export default class Contract extends Base {
 
     constructor(tronGrid) {
         super(tronGrid);
-        tronWebUtils = this.tronWebUtils
+        utils = this.utils
     }
 
     /**
      * @name TG API: /contract/:contractAddress/:eventName/:blockNumber
      * @param contractAddress
-     * @param options(since, eventName, blockNumber, size, sort, onlyConfirmed, onlyUnconfirmed, previousFingerprint, rawResponse)
+     * @param options(fromTimestamp, eventName, blockNumber, size, sort, onlyConfirmed, onlyUnconfirmed, previousFingerprint, rawResponse)
      * @param callback
      * @returns list of events
      */
-    getEvents(...params) {
-
-        if (typeof params[1] !== 'object') {
-            params[1] = {
-                since: params[1] || 0,
-                eventName: params[2] || false,
-                blockNumber: params[3] || false,
-                size: params[4] || 20,
-                sort: params[5] || '-block_timestamp'
-            }
-            params.splice(2, 4)
-
-            // callback:
-            if (!tronWebUtils.isFunction(params[2])) {
-                if (tronWebUtils.isFunction(params[1].size)) {
-                    params[2] = params[1].size;
-                    params[1].size = 20;
-                }
-            }
-        }
-
-        return this._getEvents(...params);
-    }
-
-    _getEvents(contractAddress = false, options = {}, callback = false) {
+    getEvents(contractAddress = false, options = {}, callback = false) {
 
         let {
-            since,
+            fromTimestamp,
             eventName,
             blockNumber,
             size,
@@ -54,7 +30,7 @@ export default class Contract extends Base {
             previousFingerprint,
             rawResponse
         } = Object.assign({
-            since: 0,
+            fromTimestamp: 0,
             eventName: false,
             blockNumber: false,
             size: 20,
@@ -75,10 +51,10 @@ export default class Contract extends Base {
         if(eventName && !contractAddress)
             return callback('Usage of event name filtering requires a contract address');
 
-        if(!tronWebUtils.isInteger(since))
+        if(!utils.isInteger(fromTimestamp))
             return callback('Invalid sinceTimestamp provided');
 
-        if(!tronWebUtils.isInteger(size))
+        if(!utils.isInteger(size))
             return callback('Invalid size provided');
 
         if(size > 200) {
@@ -99,7 +75,7 @@ export default class Contract extends Base {
             routeParams.push(blockNumber);
 
         const qs = {
-            since: since,
+            fromTimestamp,
             size,
             sort: sort
         }
@@ -113,15 +89,15 @@ export default class Contract extends Base {
         if (previousFingerprint)
             qs.previousFingerprint = previousFingerprint
 
-        return this.tronWeb.eventServer.request(`event/contract/${routeParams.join('/')}?${querystring.stringify(qs)}`).then((data = false) => {
+        return this.tronWeb.eventServer.request(`v1/contracts/${routeParams.join('/')}?${querystring.stringify(qs)}/events`).then((data = false) => {
             if(!data)
                 return callback('Unknown error occurred');
 
-            if(!tronWebUtils.isArray(data))
-                return callback(data);
+            // if(!utils.isArray(data))
+            //     return callback(data);
 
             return callback(null,
-                rawResponse === true ? data : data.map(event => tronWebUtils.mapEvent(event))
+                rawResponse === true ? data : data.map(event => utils.mapEvent(event))
             );
         }).catch(err => callback((err.response && err.response.data) || err));
     }
