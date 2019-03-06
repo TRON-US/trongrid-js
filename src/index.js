@@ -1,5 +1,8 @@
 import Account from 'lib/Account';
-import Asset from 'lib/Asset'
+import Asset from 'lib/Asset';
+import Block from 'lib/Block';
+import Contract from 'lib/Contract';
+import Transaction from 'lib/Transaction';
 
 class TronGrid {
 
@@ -10,5 +13,8 @@ class TronGrid {
         this.tronWeb = tronWeb;
         this.account = new Account(this);
         this.asset = new Asset(this);
+        this.block = new Block(this);
+        this.contract = new Contract(this);
+        this.transaction = new Transaction(this);
     }
 }
