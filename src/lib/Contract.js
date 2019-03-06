@@ -11,10 +11,10 @@ export default class Contract extends Base {
     }
 
     /**
-     * TG API: /contract/:contractAddress/:eventName/:blockNumber
-     * @params contractAddress
-     * @params options(since, eventName, blockNumber, size, sort, onlyConfirmed, onlyUnconfirmed, previousFingerprint, rawResponse)
-     * @params callback
+     * @name TG API: /contract/:contractAddress/:eventName/:blockNumber
+     * @param contractAddress
+     * @param options(since, eventName, blockNumber, size, sort, onlyConfirmed, onlyUnconfirmed, previousFingerprint, rawResponse)
+     * @param callback
      * @returns list of events
      */
     getEvents(...params) {

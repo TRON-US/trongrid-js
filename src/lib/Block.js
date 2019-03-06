@@ -10,7 +10,7 @@ export default class Block extends Base {
     }
 
     /**
-     * TG API: /events/blockevent/:blockNumber
+     * @name TG API: /events/blockevent/:blockNumber
      * @param blockNumber
      * @param callback
      * @returns list of events

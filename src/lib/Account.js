@@ -48,7 +48,7 @@ export default class Account extends Base {
     }
 
     /**
-     * TG3 API: /v1/accounts/:address/transactions
+     * @name TG3 API: /v1/accounts/:address/transactions
      * @param address
      * @param options
      * @param callback

@@ -10,7 +10,7 @@ export default class Transaction extends Base {
     }
 
     /**
-     * TG API: /transaction/:id
+     * @name TG API: /transaction/:id
      * @param transactionID
      * @param callback
      * @returns list of events

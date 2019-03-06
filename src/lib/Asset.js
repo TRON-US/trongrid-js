@@ -12,7 +12,7 @@ export default class Asset extends Base {
     }
 
     /**
-     * TG API: /v1/assets/:identifier
+     * @name TG API: /v1/assets/:identifier
      * @param identifier (asset ID, its name, or issuer address)
      * @param options (is_name, limit, fingerprint, sort, filter)
      * @param callback
