@@ -39,8 +39,6 @@ export default class Asset extends Base {
             sort: "-start_time"
         }, options);
 
-        options = utils.validateOptions('getAssets', options);
-
         if (options.limit <= 0)
             return callback('Limit must be greater than 0');
         if (options.limit > 200)
@@ -53,6 +51,4 @@ export default class Asset extends Base {
             callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))
         }).catch(err => callback(err))
     }
-
-
 }
