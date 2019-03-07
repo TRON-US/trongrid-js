@@ -37,8 +37,7 @@ export default class Account extends Base {
             show_assets: false,
             only_confirmed: false,
             only_unconfirmed: false
-        }, options)
-
+        }, options);
 
         options = utils.validateOptions('getAccount', options);
 
