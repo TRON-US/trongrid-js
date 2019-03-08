@@ -15,7 +15,7 @@ export default class Block extends Base {
      * @param callback
      * @returns list of events
      */
-    getEvents(blockNumber = '', callback = false) {
+    getEvents(blockNumber = 'latest', callback = false) {
 
         if(!callback)
             return this.injectPromise(this.getEvents, blockNumber);
@@ -23,7 +23,8 @@ export default class Block extends Base {
         if(!this.tronWeb.eventServer)
             return callback('No event server configured');
 
-        return this.tronWeb.eventServer.request(`v1/blocks/${blockNumber}/events`).then((data = false) => {
+        return this.tronWeb.eventServer.request(`v1/blocks/${blockNumber}/events`).then((res = false) => {
+            let data = res.data;
             if(!data)
                 return callback('Unknown error occurred');
 

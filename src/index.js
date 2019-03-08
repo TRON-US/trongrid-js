@@ -4,7 +4,7 @@ import Block from 'lib/Block';
 import Contract from 'lib/Contract';
 import Transaction from 'lib/Transaction';
 
-class TronGrid {
+export default class TronGrid {
 
     constructor(tronWeb = false) {
         if (!tronWeb)
