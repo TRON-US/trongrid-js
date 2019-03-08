@@ -6,6 +6,7 @@ describe('#block functional unit test', function () {
     let tronGrid;
 
     before(async function () {
+        this.timeout(10000);
         tronGrid = tronGridBuilder.createInstance(net);
     });
 
