@@ -1,28 +1,29 @@
-const chai = require('chai');
-const assert = chai.assert;
-const tronGridBuilder = require('../../helpers/tronGridBuilder');
-const { NET } = require('../../helpers/config');
+const {assert, tronGridBuilder, net} = require('../../helpers/testHeader')
 
 
-describe('#block functional test', function () {
+describe('#block functional unit test', function () {
 
     let tronGrid;
 
     before(async function () {
-        tronGrid = tronGridBuilder.createInstance(NET);
+        tronGrid = tronGridBuilder.createInstance(net);
+    });
+
+    after(async function () {
+        this.timeout(10000);
     });
 
     beforeEach(async function () {
-        this.timeout(10000)
-    })
+        this.timeout(10000);
+    });
 
-    after(async function () {
-        this.timeout(10000)
-    })
+    afterEach(async function () {
+        this.timeout(10000);
+    });
 
     describe('#get events by block number', function () {
 
-        it('should get all events info in one block', async function () {
+        it('should get events in single block', async function () {
             let blockNumber = 7296697;
             const events = await tronGrid.block.getEvents(blockNumber);
             for (event of events) {

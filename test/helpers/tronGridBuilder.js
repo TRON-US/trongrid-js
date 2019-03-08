@@ -28,14 +28,14 @@ let instance
 
 const getInstance = (net) => {
     if(!instance) {
-        instance = createInstance(net)
+        instance = createInstance(net);
     }
-    return instance
-}
+    return instance;
+};
 
 module.exports = {
     createInstance,
     getInstance,
     TronGrid
-}
+};
 

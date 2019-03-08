@@ -11,30 +11,28 @@ export default class Contract extends Base {
     }
 
     /**
-     * @name TG API: /contract/:contractAddress/:eventName/:blockNumber
+     * @name TG API: /v1//contracts/:contractAddress
      * @param contractAddress
-     * @param options(fromTimestamp, eventName, blockNumber, size, sort, onlyConfirmed, onlyUnconfirmed, previousFingerprint, rawResponse)
+     * @param options(onlyConfirmed, onlyUnconfirmed, eventName, blockNumber, fromTimestamp, size, previousFingerprint, sort)
      * @param callback
      * @returns list of events
      */
-    getEvents(contractAddress = false, options = {}, callback = false) {
+    getEvents(contractAddress, options = {}, callback = false) {
 
         let {
-            fromTimestamp,
-            eventName,
-            blockNumber,
-            size,
-            sort,
             onlyConfirmed,
             onlyUnconfirmed,
+            eventName,
+            blockNumber,
+            fromTimestamp,
+            size,
             previousFingerprint,
-            rawResponse
+            sort
         } = Object.assign({
             fromTimestamp: 0,
             eventName: false,
             blockNumber: false,
-            size: 20,
-            sort: '-block_timestamp'
+            size: 20
         }, options);
 
         if(!callback)
@@ -65,39 +63,55 @@ export default class Contract extends Base {
         if(blockNumber && !eventName)
             return callback('Usage of block number filtering requires an event name');
 
-        if(contractAddress)
-            routeParams.push(this.tronWeb.address.fromHex(contractAddress));
+        routeParams.push(this.tronWeb.address.fromHex(contractAddress));
 
-        if(eventName)
-            routeParams.push(eventName);
+        const qs = {};
 
-        if(blockNumber)
-            routeParams.push(blockNumber);
-
-        const qs = {
-            fromTimestamp,
-            size,
-            sort: sort
+        if (onlyConfirmed) {
+            qs.onlyConfirmed = onlyConfirmed;
         }
 
-        if(onlyConfirmed)
-            qs.onlyConfirmed = onlyConfirmed
+        if (onlyUnconfirmed && !onlyConfirmed) {
+            qs.onlyUnconfirmed = onlyUnconfirmed;
+        }
 
-        if(onlyUnconfirmed && !onlyConfirmed)
-            qs.onlyUnconfirmed = onlyUnconfirmed
+        if (onlyUnconfirmed && !onlyConfirmed)
+            qs.onlyUnconfirmed = onlyUnconfirmed;
 
-        if (previousFingerprint)
-            qs.previousFingerprint = previousFingerprint
+        if (eventName) {
+            qs.eventName = eventName;
+        }
 
-        return this.tronWeb.eventServer.request(`v1/contracts/${routeParams.join('/')}?${querystring.stringify(qs)}/events`).then((data = false) => {
+        if (blockNumber) {
+            qs.blockNumber = blockNumber;
+        }
+
+        if (fromTimestamp) {
+            qs.fromTimestamp = fromTimestamp;
+        }
+
+        if (size) {
+            qs.size = size;
+        }
+
+        if (previousFingerprint) {
+            qs.previousFingerprint = previousFingerprint;
+        }
+
+        if (sort) {
+            qs.sort = sort;
+        }
+
+        return this.tronWeb.eventServer.request(`v1/contracts/${contractAddress}/events?${querystring.stringify(qs)}`).then((res = false) => {
+            let data = res.data;
             if(!data)
                 return callback('Unknown error occurred');
 
-            // if(!utils.isArray(data))
-            //     return callback(data);
+            if(!utils.isArray(data))
+                return callback(data);
 
             return callback(null,
-                rawResponse === true ? data : data.map(event => utils.mapEvent(event))
+                data.map(event => utils.mapEvent(event))
             );
         }).catch(err => callback((err.response && err.response.data) || err));
     }
