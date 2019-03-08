@@ -237,3 +237,4 @@ getAssets();
 
 __1.0.0__
 * Supports functions for retrieving info, transactions, and assets for a specific account.
+* Supports retrieving events by contract address. 
