@@ -37,10 +37,7 @@ export default class Account extends Base {
             show_assets: false,
             only_confirmed: false,
             only_unconfirmed: false
-        }, options)
-
-
-        options = utils.validateOptions('getAccount', options);
+        }, options);
 
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
@@ -57,7 +54,7 @@ export default class Account extends Base {
      * @param callback
      * @returns list of transactions
      */
-    getTransactions(address = this.tronWeb.defaultAddress, options = {}, callback = false) {
+    getTransactions(address, options = {}, callback = false) {
         if (utils.isFunction(options)) {
             callback = options;
             options = {};
@@ -71,8 +68,6 @@ export default class Account extends Base {
 
         if (!callback)
             return this.injectPromise(this.getTransactions, address, options);
-
-        // TODO validate the options
 
         if (!this.tronWeb.isAddress(address))
             return callback('Invalid address provided');

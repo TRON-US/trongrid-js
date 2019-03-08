@@ -25,7 +25,25 @@ export default class Asset extends Base {
         if (!identifier || !(utils.isString(identifier) || utils.isInteger(identifier)))
             return callback('Invalid identifier provided');
 
-        // TODO validate the options
+        const {
+            is_name,
+            limit,
+            only_confirmed,
+            only_unconfirmed,
+            sort
+        } = Object.assign({
+            is_name: false,
+            limit: 20,
+            only_confirmed: false,
+            only_unconfirmed: false,
+            sort: "-start_time"
+        }, options);
+
+        if (options.limit <= 0)
+            return callback('Limit must be greater than 0');
+        if (options.limit > 200)
+            return callback('Max limit is 200');
+
         if (!callback)
             return this.injectPromise(this.get, identifier, options);
 
@@ -33,6 +51,4 @@ export default class Asset extends Base {
             callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))
         }).catch(err => callback(err))
     }
-
-
 }

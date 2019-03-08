@@ -35,7 +35,7 @@ export default class Contract extends Base {
             blockNumber: false,
             size: 20,
             sort: '-block_timestamp'
-        }, options)
+        }, options);
 
         if(!callback)
             return this.injectPromise(this.getEvents, contractAddress, options);
