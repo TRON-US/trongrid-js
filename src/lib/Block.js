@@ -1,4 +1,5 @@
 import Base from './Base';
+const validator = require('../utils/validator');
 
 let utils;
 
@@ -10,20 +11,27 @@ export default class Block extends Base {
     }
 
     /**
-     * @name TG API: /events/blockevent/:blockNumber
+     * @name TG API: /v1/blocks/:blockNumber/events
      * @param blockNumber
      * @param callback
      * @returns list of events
      */
-    getEvents(blockNumber = '', callback = false) {
+    getEvents(blockNumber = 'latest', callback = false) {
 
-        if(!callback)
+        if (!callback) {
             return this.injectPromise(this.getEvents, blockNumber);
+        }
 
-        if(!this.tronWeb.eventServer)
+        if (!this.tronWeb.eventServer) {
             return callback('No event server configured');
+        }
 
-        return this.tronWeb.eventServer.request(`v1/blocks/${blockNumber}/events`).then((data = false) => {
+        if (blockNumber !== 'latest' && !validator.isValidBlockNumber(blockNumber)) {
+            return callback('Invalid block number provided');
+        }
+
+        return this.tronWeb.eventServer.request(`v1/blocks/${blockNumber}/events`).then((res = false) => {
+            let data = res.data;
             if(!data)
                 return callback('Unknown error occurred');
 

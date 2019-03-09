@@ -6,13 +6,16 @@
     "scripts": {
         "build": "npm run clean && webpack --config webpack.config.js --progress --colors",
         "clean": "rimraf dist",
-        "build:dev": "NODE_ENV=development npm run build"
+        "build:dev": "NODE_ENV=development npm run build",
+        "test": "node scripts/test-node.js && npx mocha 'test/**/*.test.js'"
     },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
         "babel-runtime": "^6.26.0"
     },
     "devDependencies": {
+        "chai": "^4.2.0",
+        "mocha": "^5.2.0",
         "@babel/core": "^7.0.0",
         "@babel/plugin-proposal-class-properties": "^7.0.0",
         "@babel/plugin-proposal-numeric-separator": "^7.0.0",
@@ -25,7 +28,8 @@
         "babel-plugin-source-map-support": "^2.0.1",
         "webpack": "^4.17.2",
         "webpack-cli": "^3.1.0",
-        "webpack-node-externals": "^1.7.2"
+        "webpack-node-externals": "^1.7.2",
+        "tronweb": "^2.2.2"
     },
     "author": {
         "name": "Wyatt && Jackie",

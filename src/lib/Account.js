@@ -10,7 +10,7 @@ export default class Account extends Base {
     }
 
     /**
-     * TG API: /v1/accounts/:address
+     * @name TG API: /v1/accounts/:address
      * @param address (hex or base58 format)
      * @param options (filters: Show_assets, only_confirmed, only_unconfirmed)
      * @param callback
