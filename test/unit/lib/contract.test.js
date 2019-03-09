@@ -1,4 +1,4 @@
-const {assert, tronGridBuilder, net} = require('../../helpers/testHeader')
+const {assert, tronGridBuilder, net} = require('../../helpers/includes')
 
 
 describe('#contract functional unit test', function () {
