@@ -38,6 +38,7 @@ If you'd like to download and build locally, please follow the steps below.
 > yarn install
 > yarn dev
 > yarn build
+> yarn test
 ```
 
 ## Supported APIs

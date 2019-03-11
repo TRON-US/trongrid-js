@@ -2,7 +2,7 @@ const TronWeb = require('tronweb');
 const TronGrid = require('../setup/TronGrid');
 const { MAIN, SHASTA } = require('./config');
 
-const createInstance = (net) => {
+const createInstance = net => {
     let node;
     switch (net) {
         case 'main':
@@ -26,7 +26,7 @@ const createInstance = (net) => {
 
 let instance
 
-const getInstance = (net) => {
+const getInstance = net => {
     if(!instance) {
         instance = createInstance(net);
     }
