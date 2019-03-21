@@ -35,8 +35,12 @@ export default class Account extends Base {
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
-        this.apiNode.request(`v1/accounts/${address}`, options, 'get').then(account => {
-            callback(null, account);
+        this.apiNode.request(`v1/accounts/${address}`, options, 'get').then(response => {
+            if (options.only_data_and_fingerprint) {
+                callback(null, response.data, response.meta.fingerprint);
+            } else {
+                callback(null, response);
+            }
         }).catch(err => callback(err));
     }
 
@@ -65,8 +69,12 @@ export default class Account extends Base {
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
-        this.apiNode.request(`v1/accounts/${address}/transactions`, options, 'get').then(transactions => {
-            callback(null, transactions);
+        this.apiNode.request(`v1/accounts/${address}/transactions`, options, 'get').then(response => {
+            if (options.only_data_and_fingerprint) {
+                callback(null, response.data, response.meta.fingerprint);
+            } else {
+                callback(null, response);
+            }
         }).catch(err => callback(err));
     }
 

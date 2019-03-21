@@ -30,9 +30,13 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(asset => {
-            callback(null, asset);
-        }).catch(err => callback(err))
+        this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(response => {
+            if (options.only_data_and_fingerprint) {
+                callback(null, response.data, response.meta.fingerprint);
+            } else {
+                callback(null, response);
+            }
+        }).catch(err => callback(err));
     }
 
     /**
@@ -65,8 +69,12 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        this.apiNode.request(`v1/assets/${name}/list`, options, 'get').then(assets => {
-            callback(null, assets);
-        }).catch(err => callback(err))
+        this.apiNode.request(`v1/assets/${name}/list`, options, 'get').then(response => {
+            if (options.only_data_and_fingerprint) {
+                callback(null, response.data, response.meta.fingerprint);
+            } else {
+                callback(null, response);
+            }
+        }).catch(err => callback(err));
     }
 }
