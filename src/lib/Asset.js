@@ -47,6 +47,9 @@ export default class Asset extends Base {
         if (!callback)
             return this.injectPromise(this.get, identifier, options);
 
+        if (this.tronWeb.experimental)
+            options.experimental = this.tronWeb.experimental;
+
         this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(({assetIssue = []}) => {
             callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))
         }).catch(err => callback(err))

@@ -17,6 +17,11 @@ export default class TronGrid {
         this.block = new Block(this);
         this.contract = new Contract(this);
         this.transaction = new Transaction(this);
+        this.experimental = undefined;
+    }
+
+    setExperimental(code) {
+        this.experimental = code;
     }
 
     pluginInterface() {
