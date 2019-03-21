@@ -11,8 +11,7 @@ export default class Asset extends Base {
 
     /**
      * @name TG API: /v1/assets/:identifier
-     * @param identifier (asset ID, its name, or issuer address)
-     * @param options (is_name, limit, fingerprint, sort, filter)
+     * @param identifier (asset ID, or issuer address)
      * @param callback
      * @returns list of assets
      */
@@ -25,19 +24,32 @@ export default class Asset extends Base {
         if (!identifier || !(utils.isString(identifier) || utils.isInteger(identifier)))
             return callback('Invalid identifier provided');
 
-        const {
-            is_name,
-            limit,
-            only_confirmed,
-            only_unconfirmed,
-            sort
-        } = Object.assign({
-            is_name: false,
-            limit: 20,
-            only_confirmed: false,
-            only_unconfirmed: false,
-            sort: "-start_time"
-        }, options);
+        if (!callback)
+            return this.injectPromise(this.get, identifier, options);
+
+        if (this.tronGrid.experimental)
+            options.experimental = this.tronGrid.experimental;
+
+        this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(({assetIssue = []}) => {
+            callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))
+        }).catch(err => callback(err))
+    }
+
+    /**
+     * @name TG API: /v1/assets/:name/list
+     * @param name of the asset
+     * @param options (limit, fingerprint, sort, filter)
+     * @param callback
+     * @returns list of assets
+     */
+    getList(name = false, options = {}, callback = false) {
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if (!name || !utils.isString(name))
+            return callback('Invalid identifier provided');
 
         if (options.limit <= 0)
             return callback('Limit must be greater than 0');
@@ -45,9 +57,12 @@ export default class Asset extends Base {
             return callback('Max limit is 200');
 
         if (!callback)
-            return this.injectPromise(this.get, identifier, options);
+            return this.injectPromise(this.get, name, options);
 
-        this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(({assetIssue = []}) => {
+        if (this.tronGrid.experimental)
+            options.experimental = this.tronGrid.experimental;
+
+        this.apiNode.request(`v1/assets/${name}/list`, options, 'get').then(({assetIssue = []}) => {
             callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))
         }).catch(err => callback(err))
     }
