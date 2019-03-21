@@ -59,9 +59,6 @@ export default class Asset extends Base {
             return callback('Limit must be greater than 0');
         if (options.limit > 200)
             return callback('Max limit is 200');
-        if (options.limit) {
-            options.size = options.limit;
-        }
 
         if (!callback)
             return this.injectPromise(this.getList, name, options);
@@ -70,6 +67,39 @@ export default class Asset extends Base {
             options.experimental = this.tronGrid.experimental;
 
         this.apiNode.request(`v1/assets/${name}/list`, options, 'get').then(response => {
+            if (options.only_data_and_fingerprint) {
+                callback(null, response.data, response.meta.fingerprint);
+            } else {
+                callback(null, response);
+            }
+        }).catch(err => callback(err));
+    }
+
+    /**
+     * @name TG API: /v1/assets
+     * @param lists all the assets
+     * @param options (limit, fingerprint, sort, filter)
+     * @param callback
+     * @returns list of assets
+     */
+    getAll(options = {}, callback = false) {
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if (options.limit <= 0)
+            return callback('Limit must be greater than 0');
+        if (options.limit > 200)
+            return callback('Max limit is 200');
+
+        if (!callback)
+            return this.injectPromise(this.getAll, options);
+
+        if (this.tronGrid.experimental)
+            options.experimental = this.tronGrid.experimental;
+
+        this.apiNode.request(`v1/assets`, options, 'get').then(response => {
             if (options.only_data_and_fingerprint) {
                 callback(null, response.data, response.meta.fingerprint);
             } else {
