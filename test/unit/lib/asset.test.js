@@ -67,4 +67,20 @@ describe('#asset functional unit test', function () {
         });
     });
 
+    describe('#get the first 20 assets', function () {
+
+        const names = [
+            '53454544',
+            '545258',
+            '49504653',
+            '426974636f696e',
+            '454f53'
+        ];
+
+        it('should get assets list', async function () {
+            const res = await tronGrid.asset.getAll({limit: 3});
+            assert.equal(res.data[0].name, 'WOLF');
+        });
+    });
+
 })
