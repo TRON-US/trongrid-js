@@ -12,7 +12,7 @@ export default class Account extends Base {
     /**
      * @name TG API: /v1/accounts/:address
      * @param address (hex or base58 format)
-     * @param options (filters: Show_assets, only_confirmed, only_unconfirmed)
+     * @param options (filters: only_confirmed)
      * @param callback
      * @returns account
      */
@@ -53,12 +53,6 @@ export default class Account extends Base {
             options = {};
         }
 
-        if (utils.isFunction(address)) {
-            callback = address;
-            address = this.tronWeb.defaultAddress;
-            options = {};
-        }
-
         if (!callback)
             return this.injectPromise(this.getTransactions, address, options);
 
@@ -71,10 +65,8 @@ export default class Account extends Base {
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
-        this.apiNode.request(`v1/accounts/${address}/transactions`, {
-            options
-        }, 'get').then(transaction => {
-            callback(null, transaction);
+        this.apiNode.request(`v1/accounts/${address}/transactions`, options, 'get').then(transactions => {
+            callback(null, transactions);
         }).catch(err => callback(err));
     }
 

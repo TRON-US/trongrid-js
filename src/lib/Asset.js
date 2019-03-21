@@ -30,8 +30,8 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(({assetIssue = []}) => {
-            callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))
+        this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(asset => {
+            callback(null, asset);
         }).catch(err => callback(err))
     }
 
@@ -55,15 +55,18 @@ export default class Asset extends Base {
             return callback('Limit must be greater than 0');
         if (options.limit > 200)
             return callback('Max limit is 200');
+        if (options.limit) {
+            options.size = options.limit;
+        }
 
         if (!callback)
-            return this.injectPromise(this.get, name, options);
+            return this.injectPromise(this.getList, name, options);
 
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        this.apiNode.request(`v1/assets/${name}/list`, options, 'get').then(({assetIssue = []}) => {
-            callback(null, assetIssue.map(token => this.tronWeb.trx.parseToken(token)))
+        this.apiNode.request(`v1/assets/${name}/list`, options, 'get').then(assets => {
+            callback(null, assets);
         }).catch(err => callback(err))
     }
 }
