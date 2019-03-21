@@ -26,8 +26,8 @@ describe('#block functional unit test', function () {
 
         it('should get events in single block', async function () {
             let blockNumber = 7296697;
-            const events = await tronGrid.block.getEvents(blockNumber);
-            for (event of events) {
+            const events = await tronGrid.block.getEvents(blockNumber, {only_data_and_fingerprint: true});
+            for (let event of events) {
                 assert.equal(event.block, blockNumber);
             }
         });

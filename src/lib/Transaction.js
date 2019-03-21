@@ -24,7 +24,7 @@ export default class Transaction extends Base {
         }
 
         if (!callback) {
-            return this.injectPromise(this.getEvents, transactionID);
+            return this.injectPromise(this.getEvents, transactionID, options);
         }
 
         if (!this.tronWeb.eventServer) {

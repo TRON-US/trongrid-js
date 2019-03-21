@@ -24,7 +24,7 @@ export default class Block extends Base {
         }
 
         if (!callback) {
-            return this.injectPromise(this.getEvents, blockNumber);
+            return this.injectPromise(this.getEvents, blockNumber, options);
         }
 
         if (!this.tronWeb.eventServer) {
