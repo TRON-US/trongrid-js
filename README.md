@@ -152,7 +152,7 @@ async function getTransactions() {
         only_to: true,
         only_confirmed: true,
         limit: 100,
-        sort: -block_number
+        sort: '-block_number'
     };
     
     const transactions = await tronGrid.account.getTransactions(address, options);
@@ -196,7 +196,7 @@ async function getAssets() {
     const options = {
         is_name: false,
         limit: 100,
-        sort: +total_supply,
+        sort: '+total_supply',
         only_confirmed: true
     };
     
@@ -221,6 +221,10 @@ getAssets();
 ```
 
 ### Version History
+
+__1.0.1__
+* Updates README for TronWeb 2.3.+.
+
 
 __1.0.0__
 * Supports functions for retrieving info, transactions, and assets for a specific account.
