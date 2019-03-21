@@ -16,10 +16,15 @@ export default class Transaction extends Base {
      * @param callback
      * @returns list of events
      */
-    getEvents(transactionID = false, callback = false) {
+    getEvents(transactionID = false, options = {}, callback = false) {
+
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
 
         if (!callback) {
-            return this.injectPromise(this.getEvents, transactionID);
+            return this.injectPromise(this.getEvents, transactionID, options);
         }
 
         if (!this.tronWeb.eventServer) {
@@ -30,18 +35,13 @@ export default class Transaction extends Base {
             return callback('Invalid transaction id provided');
         }
 
-        return this.tronWeb.eventServer.request(`v1/transactions/${transactionID}/events`).then((res = false) => {
-            let data = res.data;
-            if(!data)
-                return callback('Unknown error occurred');
-
-            if(!utils.isArray(data))
-                return callback(data);
-
-            return callback(null,
-                data.map(event => utils.mapEvent(event))
-            );
-        }).catch(err => callback((err.response && err.response.data) || err));
+        return this.tronWeb.eventServer.request(`v1/transactions/${transactionID}/events`).then(response => {
+            if (options.only_data_and_fingerprint) {
+                callback(null, response.data, response.meta.fingerprint);
+            } else {
+                callback(null, response);
+            }
+        }).catch(err => callback(err));
     }
 
 }

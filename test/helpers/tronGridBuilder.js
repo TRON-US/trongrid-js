@@ -1,6 +1,6 @@
 const TronWeb = require('tronweb');
 const TronGrid = require('../setup/TronGrid');
-const { MAIN, SHASTA } = require('./config');
+const { MAIN, SHASTA, LOCAL } = require('./config');
 
 const createInstance = net => {
     let node;
@@ -10,6 +10,9 @@ const createInstance = net => {
             break;
         case 'shasta':
             node = SHASTA;
+            break;
+        case 'local':
+            node = LOCAL;
             break;
         default:
             throw new Error('has to choose net in config.js');

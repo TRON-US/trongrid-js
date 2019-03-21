@@ -26,8 +26,8 @@ describe('#contract functional unit test', function () {
 
         it('should get events without filter', async function () {
             let contractAddress = 'THCS2G33reng9TyGHARDQHGPAbCkP9xg5q';
-            const events = await tronGrid.contract.getEvents(contractAddress, {});
-            for (event of events) {
+            const events = await tronGrid.contract.getEvents(contractAddress, {only_data_and_fingerprint: true});
+            for (let event of events) {
                 assert.equal(event.contract, contractAddress);
             }
         });
