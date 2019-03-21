@@ -69,19 +69,13 @@ If you'd like to download and build locally, please follow the steps below.
 ### Initialize TronWeb and create TronGridJS instance
 
 ```js
-const TronGrid = require('trongrid-js');
+const TronGrid = require('trongrid');
 const TronWeb = require('tronweb');
 
-const fullNode = 'https://api.trongrid.io';
-const solidityNode = 'https://api.trongrid.io';
-const eventServer = 'https://api.trongrid.io/';
-const privateKey = 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0';
-
-const tronWeb = new TronWeb(
-    fullNode,
-    solidityNode,
-    eventServer,
-    privateKey
+const tronWeb = new TronWeb({
+        fullHost: 'https://api.trongrid.io',
+    },
+    privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0'
 );
 
 const tronGrid = new TronGrid(tronWeb);
@@ -90,21 +84,13 @@ const tronGrid = new TronGrid(tronWeb);
 ### Full Example
 
 ```js
-const TronGrid = require('trongrid-js');
+const TronGrid = require('trongrid');
 const TronWeb = require('tronweb');
 
-const HttpProvider = TronWeb.providers.HttpProvider;
-const fullNode = new HttpProvider('https://api.trongrid.io');
-const solidityNode = new HttpProvider('https://api.trongrid.io');
-const eventServer = new HttpProvider('https://api.trongrid.io');
-
-const privateKey = 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0';
-
-const tronWeb = new TronWeb(
-    fullNode,
-    solidityNode,
-    eventServer,
-    privateKey
+const tronWeb = new TronWeb({
+        fullHost: 'https://api.trongrid.io',
+    },
+    privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0'
 );
 
 const tronGrid = new TronGrid(tronWeb);
