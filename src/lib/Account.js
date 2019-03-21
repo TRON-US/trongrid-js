@@ -29,8 +29,8 @@ export default class Account extends Base {
         if (!this.tronWeb.isAddress(address))
             return callback('Invalid address provided');
 
-        if (this.tronWeb.experimental)
-            options.experimental = this.tronWeb.experimental;
+        if (this.tronGrid.experimental)
+            options.experimental = this.tronGrid.experimental;
 
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
@@ -65,8 +65,8 @@ export default class Account extends Base {
         if (!this.tronWeb.isAddress(address))
             return callback('Invalid address provided');
 
-        if (this.tronWeb.experimental)
-            options.experimental = this.tronWeb.experimental;
+        if (this.tronGrid.experimental)
+            options.experimental = this.tronGrid.experimental;
 
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
