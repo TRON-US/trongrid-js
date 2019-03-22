@@ -17,16 +17,16 @@ You can also ship TronGridJS in a Chrome extension.
 
 ## Installation
 
-__[TronGridJS - NPM Package](https://www.npmjs.com/package/trongrid-js)__
+__[TronGridJS - NPM Package](https://www.npmjs.com/package/trongrid)__
 
 ### NPM
 ```bash
-> npm install trongrid-js
+> npm install trongrid
 ```
 
 ### Yarn
 ```bash
-> yarn add trongrid-js
+> yarn add trongrid
 ```
 
 ## Build Steps
@@ -51,6 +51,21 @@ If you'd like to download and build locally, please follow the steps below.
 #### Assets API
 
 * GET /v1/assets/:identifier
+* GET /v1/assets/:name/list
+* GET /v1/assets
+
+#### Blocks API
+
+* GET /v1/blocks/:blockNumber/events
+
+#### Contracts API
+
+* GET /v1//contracts/:contractAddress
+
+#### Transactions API 
+
+* GET /v1/transaction/:id
+
 
 ## Usage
 
@@ -227,5 +242,7 @@ __1.0.1__
 
 
 __1.0.0__
-* Supports functions for retrieving info, transactions, and assets for a specific account.
+* Supports retrieving info, transactions, and assets by identifier.
 * Supports retrieving events by contract address. 
+* Supports retrieving transaction by ID.
+* Supports retrieving events by block number.
