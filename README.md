@@ -53,7 +53,7 @@ It returns info about the account at `accountAddress`
 Options:
 ```
 onlyConfirmed       Show only the situation at latest confirmed block
-                        true | false		(default false)
+                        true | false        (default false)
 ```
 It substitutes the following JavaTron API:
 * /wallet/getaccount
@@ -65,20 +65,20 @@ It returns all the transactions related to the account at `accountAddress`.
 
 Options:
 ```
-only_confirmed		Shows only confirmed.
-					    true | false		default false
-only_unconfirmed	Shows only unconfirmed.
-					    true | false		default false
-only_to 			Only transaction to address.
-						true | false   	default false
-only_from 			Only transaction from address.
-					    true | false		default false
-limit				The requested number of transaction per page. Default 20. Max 200.
-fingerprint			The fingerprint of the last transaction returned by the previous page
-order_by			Sorts the results of the query. Example:
-					    order_by=timestamp,desc
-min_timestamp	    The minimum transaction timestamp		default 0
-max_timestamp	    The maximum transaction timestamp		default now
+only_confirmed      Shows only confirmed.
+                        true | false        default false
+only_unconfirmed    Shows only unconfirmed.
+                        true | false        default false
+only_to             Only transaction to address.
+                        true | false       default false
+only_from           Only transaction from address.
+                        true | false        default false
+limit               The requested number of transaction per page. Default 20. Max 200.
+fingerprint         The fingerprint of the last transaction returned by the previous page
+order_by            Sorts the results of the query. Example:
+                        order_by=timestamp,desc
+min_timestamp       The minimum transaction timestamp        default 0
+max_timestamp       The maximum transaction timestamp        default now
 
 ```
 It substitutes the following JavaTron API:
@@ -92,12 +92,12 @@ It returns all the assets on the TRON platform.
 
 Options:
 ```
-order_by		    Sorts the results.
-			        Accepted fields:
-					    total_supply
-					    start_time
-					    end_time
-					    id
+order_by            Sorts the results.
+                    Accepted fields:
+                        total_supply
+                        start_time
+                        end_time
+                        id
 ```
 ---
 
@@ -114,15 +114,15 @@ It returns all the asset with the name `assetName`
 
 Options:
 ```
-limit				The requested number of assets per page. Default 20. Max 200.
-fingerprint			The fingerprint of the last asset returned by the previous page.
-				    When there is a pagination, the minimum limit is set to 20.
-order_by			Sorts the results of the query. Example:
-					    order_by=total_supply,asc  (starts from the rarest token)
-					    order_by=start_time,desc   (starts from the most recent ICO)
-					    order_by=id,asc            (starts from the oldest)
-only_confirmed		Shows only the situation at latest confirmed block.
-					    true | false		default false
+limit               The requested number of assets per page. Default 20. Max 200.
+fingerprint         The fingerprint of the last asset returned by the previous page.
+                    When there is a pagination, the minimum limit is set to 20.
+order_by            Sorts the results of the query. Example:
+                        order_by=total_supply,asc  (starts from the rarest token)
+                        order_by=start_time,desc   (starts from the most recent ICO)
+                        order_by=id,asc            (starts from the oldest)
+only_confirmed      Shows only the situation at latest confirmed block.
+                        true | false        default false
 
 ```
 
@@ -143,19 +143,19 @@ It returns all the events emitted by a smart contract.
 
 Options:
 ```
-only_confirmed		    Shows only confirmed.
-					        true | false			    default false
-only_unconfirmed		Shows only unconfirmed.
-					        true | false			    default false
-event_name				The name of the event
-block_number			The block number for which the events are required
-min_timestamp			The minimum block timestamp 	default 0
-max_timestamp			The maximum block timestamp		default now
-order_by				Sort the events. Accepted values:
-					        timestamp,asc
-					        timestamp,desc 		(default)
-limit				    For pagination.                 default 20, max 200
-fingerprint			    The fingerprint of last event retrieved in the page
+only_confirmed         Shows only confirmed.
+                            true | false                default false
+only_unconfirmed       Shows only unconfirmed.
+                            true | false                default false
+event_name             The name of the event
+block_number           The block number for which the events are required
+min_timestamp          The minimum block timestamp     default 0
+max_timestamp          The maximum block timestamp        default now
+order_by               Sort the events. Accepted values:
+                            timestamp,asc
+                            timestamp,desc         (default)
+limit                  For pagination.                 default 20, max 200
+fingerprint                The fingerprint of last event retrieved in the page
 ```
 
 ---
