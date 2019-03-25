@@ -1,35 +1,35 @@
-## What is TronGridJS?
+# What is TronGridJS?
 
 __[TronGridJS - Developer Document](https://developers.tron.network/docs/trongrid-js-intro)__
 
 TronGridJS is a Javascript library for utilizing TronGrid APIs to retrieve blockchain data from the Tron network.
 
-## Compatibility
+# Compatibility
 - Version built for Node.js v6 and above
 - Version built for browsers with more than 0.25% market share
 
 TronGridJS is also compatible with frontend frameworks such as:
-- Angular 
+- Angular
 - React
 - Vue
 
 You can also ship TronGridJS in a Chrome extension.
 
-## Installation
+# Installation
 
 __[TronGridJS - NPM Package](https://www.npmjs.com/package/trongrid)__
 
-### NPM
+## NPM
 ```bash
 > npm install trongrid
 ```
 
-### Yarn
+## Yarn
 ```bash
 > yarn add trongrid
 ```
 
-## Build Steps
+# Build Steps
 
 If you'd like to download and build locally, please follow the steps below.
 ```bash
@@ -41,78 +41,172 @@ If you'd like to download and build locally, please follow the steps below.
 > yarn test
 ```
 
-## Supported APIs
+# Supported APIs
 
-#### Accounts API
+TronGridJS allows to easily access the new v1 API provided by TronGrid.
 
-* GET /v1/accounts/:address
-* GET /v1/accounts/:address/transactions
+---
 
-#### Assets API
+###`tronGrid.account.get(accountAddress, options)`
+It returns info about the account at `accountAddress`
 
-* GET /v1/assets/:identifier
-* GET /v1/assets/:name/list
-* GET /v1/assets
+Options:
+```
+onlyConfirmed       Show only the situation at latest confirmed block
+                        true | false		(default false)
+```
+It substitutes the following JavaTron API:
+* /wallet/getaccount
 
-#### Blocks API
+---
 
-* GET /v1/blocks/:blockNumber/events
+###`tronGrid.account.getTransations(accountAddress, options)`
+It returns all the transactions related to the account at `accountAddress`.
 
-#### Contracts API
+Options:
+```
+only_confirmed		Shows only confirmed.
+					    true | false		default false
+only_unconfirmed	Shows only unconfirmed.
+					    true | false		default false
+only_to 			Only transaction to address.
+						true | false   	default false
+only_from 			Only transaction from address.
+					    true | false		default false
+limit				The requested number of transaction per page. Default 20. Max 200.
+fingerprint			The fingerprint of the last transaction returned by the previous page
+order_by			Sorts the results of the query. Example:
+					    order_by=timestamp,desc
+min_timestamp	    The minimum transaction timestamp		default 0
+max_timestamp	    The maximum transaction timestamp		default now
 
-* GET /v1//contracts/:contractAddress
+```
+It substitutes the following JavaTron API:
+* /walletextension/gettransactionfromthis
+* /walletextension/gettransactiontothis
 
-#### Transactions API 
+---
 
-* GET /v1/transaction/:id
+###`tronGrid.asset.getAll(options)`
+It returns all the assets on the TRON platform.
+
+Options:
+```
+order_by		    Sorts the results.
+			        Accepted fields:
+					    total_supply
+					    start_time
+					    end_time
+					    id
+```
+---
+
+###`tronGrid.asset.get(assetIdentifier, options)`
+It returns an asset identified by the address of its owner, or its own ID
+It substitutes the following JavaTron API:
+* /wallet/getassetissuebyaccount
+* /wallet/getassetissuebyid
+
+---
+
+###`tronGrid.asset.getList(assetName, options)`
+It returns all the asset with the name `assetName`
+
+Options:
+```
+limit				The requested number of assets per page. Default 20. Max 200.
+fingerprint			The fingerprint of the last asset returned by the previous page.
+				    When there is a pagination, the minimum limit is set to 20.
+order_by			Sorts the results of the query. Example:
+					    order_by=total_supply,asc  (starts from the rarest token)
+					    order_by=start_time,desc   (starts from the most recent ICO)
+					    order_by=id,asc            (starts from the oldest)
+only_confirmed		Shows only the situation at latest confirmed block.
+					    true | false		default false
+
+```
+
+It substitutes the following JavaTron API:
+* /wallet/getassetissuelistbyname
+* /wallet/getassetissuelist
+
+---
+
+###`tronGrid.block.getEvents(identifier, options)`
+It returns all the events of a specific block.
+The identifier can be either `latest` or a block number.
+
+---
+
+###`tronGrid.contract.getEvents(contractAddress, options)`
+It returns all the events emitted by a smart contract.
+
+Options:
+```
+only_confirmed		    Shows only confirmed.
+					        true | false			    default false
+only_unconfirmed		Shows only unconfirmed.
+					        true | false			    default false
+event_name				The name of the event
+block_number			The block number for which the events are required
+min_timestamp			The minimum block timestamp 	default 0
+max_timestamp			The maximum block timestamp		default now
+order_by				Sort the events. Accepted values:
+					        timestamp,asc
+					        timestamp,desc 		(default)
+limit				    For pagination.                 default 20, max 200
+fingerprint			    The fingerprint of last event retrieved in the page
+```
+
+---
+
+###`tronGrid.transaction.getEvents(id, options)`
+It returns all the events emitted in the transaction specified by `id`
 
 
-## Usage
+# Usage
 
-### Install [TronWeb](https://github.com/tronprotocol/tron-web)
+## Install [TronWeb](https://github.com/tronprotocol/tron-web)
 
-#### NPM
+### NPM
 ```bash
 > npm install tronweb
 ```
 
-### Yarn
+## Yarn
 ```bash
 > yarn add tronweb
 ```
 
-### Initialize TronWeb and create TronGridJS instance
+## Initialize TronWeb and create TronGridJS instance
 
 ```js
 const TronGrid = require('trongrid');
 const TronWeb = require('tronweb');
 
 const tronWeb = new TronWeb({
-        fullHost: 'https://api.trongrid.io',
-        privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0'
-    }
-);
+    fullHost: 'https://api.trongrid.io'
+});
 
 const tronGrid = new TronGrid(tronWeb);
+
 ```
 
-### Full Example
+## Example
 
 ```js
 const TronGrid = require('trongrid');
 const TronWeb = require('tronweb');
 
 const tronWeb = new TronWeb({
-        fullHost: 'https://api.trongrid.io',
-        privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0'
-    }
-);
+    fullHost: 'https://api.trongrid.io'
+});
 
 const tronGrid = new TronGrid(tronWeb);
 
 async function getAccount() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
-    
+
     const options = {
         Show_assets: true,
         only_confirmed: true,
@@ -191,7 +285,7 @@ getTransactions();
 getAssets();
 ```
 
-### Version History
+## Version History
 
 __1.0.2__
 * Fix example in README using the new parameters min_timestamp, max_timestamp and order_by.
