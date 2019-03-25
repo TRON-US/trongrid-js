@@ -33,7 +33,7 @@ __[TronGridJS - NPM Package](https://www.npmjs.com/package/trongrid)__
 
 If you'd like to download and build locally, please follow the steps below.
 ```bash
-> git clone https://github.com/tronprotocol/trongrid-js.git
+> git clone https://github.com/TRON-US/trongrid-js.git
 > cd trongrid-js
 > yarn install
 > yarn dev
@@ -203,6 +203,7 @@ const tronWeb = new TronWeb({
 });
 
 const tronGrid = new TronGrid(tronWeb);
+tronGrid.setExperimental('your experimental key');
 
 async function getAccount() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
@@ -259,8 +260,9 @@ async function getTransactions() {
     });
 }
 
-async function getAsset() {
-    const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
+async function getAssets() {
+    const address = 'TXk39yyhzpfbqtU1BATUzpcfQ37L8Tc4Ht';
+    const options = {};
 
     // awaiting
     const assets = await tronGrid.asset.get(address);
