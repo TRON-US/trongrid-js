@@ -45,7 +45,7 @@ yarn test
 
 TronGridJS allows to easily access the new v1 API provided by TronGrid.
 
----
+--
 
 #### `tronGrid.account.get(accountAddress, options)`
 It returns info about the account at `accountAddress`
@@ -58,7 +58,7 @@ onlyConfirmed       Show only the situation at latest confirmed block
 It substitutes the following JavaTron API:
 * /wallet/getaccount
 
----
+--
 
 #### `tronGrid.account.getTransations(accountAddress, options)`
 It returns all the transactions related to the account at `accountAddress`.
@@ -85,7 +85,7 @@ It substitutes the following JavaTron API:
 * /walletextension/gettransactionfromthis
 * /walletextension/gettransactiontothis
 
----
+--
 
 #### `tronGrid.asset.getAll(options)`
 It returns all the assets on the TRON platform.
@@ -100,7 +100,7 @@ order_by            Sorts the results.
                         start_time
                         end_time
 ```
----
+--
 
 #### `tronGrid.asset.get(assetIdentifier, options)`
 It returns an asset identified by the address of its owner, or its own ID
@@ -108,7 +108,7 @@ It substitutes the following JavaTron API:
 * /wallet/getassetissuebyaccount
 * /wallet/getassetissuebyid
 
----
+--
 
 #### `tronGrid.asset.getList(assetName, options)`
 It returns all the asset with the name `assetName`
@@ -138,13 +138,13 @@ It substitutes the following JavaTron API:
 * /wallet/getassetissuelistbyname
 * /wallet/getassetissuelist
 
----
+--
 
 #### `tronGrid.block.getEvents(identifier, options)`
 It returns all the events of a specific block.
 The identifier can be either `latest` or a block number.
 
----
+--
 
 #### `tronGrid.contract.getEvents(contractAddress, options)`
 It returns all the events emitted by a smart contract.
@@ -166,7 +166,7 @@ limit                  For pagination.                 default 20, max 200
 fingerprint                The fingerprint of last event retrieved in the page
 ```
 
----
+--
 
 #### `tronGrid.transaction.getEvents(id, options)`
 It returns all the events emitted in the transaction specified by `id`
