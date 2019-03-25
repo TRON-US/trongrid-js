@@ -117,10 +117,17 @@ Options:
 limit               The requested number of assets per page. Default 20. Max 200.
 fingerprint         The fingerprint of the last asset returned by the previous page.
                     When there is a pagination, the minimum limit is set to 20.
-order_by            Sorts the results of the query. Example:
-                        order_by=total_supply,asc  (starts from the rarest token)
+order_by            Sorts the results of the query.
+                    Accepted fields:
+                        id
+                        name
+                        total_supply
+                        start_time
+                        end_time
+                    Example:
                         order_by=start_time,desc   (starts from the most recent ICO)
                         order_by=id,asc            (starts from the oldest)
+
 only_confirmed      Shows only the situation at latest confirmed block.
                         true | false        default false
 
