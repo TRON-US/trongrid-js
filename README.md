@@ -94,10 +94,11 @@ Options:
 ```
 order_by            Sorts the results.
                     Accepted fields:
+                        id
+                        name
                         total_supply
                         start_time
                         end_time
-                        id
 ```
 ---
 
