@@ -33,7 +33,7 @@ __[TronGridJS - NPM Package](https://www.npmjs.com/package/trongrid)__
 
 If you'd like to download and build locally, please follow the steps below.
 ```bash
-> git clone https://github.com/tronprotocol/trongrid-js.git
+> git clone https://github.com/TRON-US/trongrid-js.git
 > cd trongrid-js
 > yarn install
 > yarn dev
