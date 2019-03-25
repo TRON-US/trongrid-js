@@ -74,8 +74,8 @@ const TronWeb = require('tronweb');
 
 const tronWeb = new TronWeb({
         fullHost: 'https://api.trongrid.io',
-    },
-    privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0'
+        privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0'
+    }
 );
 
 const tronGrid = new TronGrid(tronWeb);
@@ -89,8 +89,8 @@ const TronWeb = require('tronweb');
 
 const tronWeb = new TronWeb({
         fullHost: 'https://api.trongrid.io',
-    },
-    privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0'
+        privateKey: 'da146374a75310b9666e834ee4ad0866d6f4035967bfc76217c5a495fff9f0d0'
+    }
 );
 
 const tronGrid = new TronGrid(tronWeb);
@@ -98,25 +98,21 @@ const tronGrid = new TronGrid(tronWeb);
 async function getAccount() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
     
-    /*
-    Options:
-    filter			List the filters to be applied. Accepted parameters:
-        			Show_assets:			true | false		default false
-        			only_confirmed:		true | false		default false
-        			only_unconfirmed:		true | false		default false
-    */
     const options = {
         Show_assets: true,
         only_confirmed: true,
     };
-    
+
+    // awaiting
     const account = await tronGrid.account.get(address, options);
     console.log({account});
 
+    // promise
     tronGrid.account.get(address, options).then(account => {
         console.log({account});
     }).catch(err => console.error(err));
 
+    // callback
     tronGrid.account.get(address, options, (err, account) => {
         if (err)
             return console.error(err);
@@ -127,41 +123,25 @@ async function getAccount() {
 
 async function getTransactions() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
-    
-    /*
-    Options:
-    filter				Filters to be applied to the results. Accepted parameters:
-    					only_to: 			true | false   	default false
-    					only_from: 		true | false		default false	
-    					only_confirmed:		true | false		default false
-    					only_unconfirmed:		true | false		default false
-    limit				The requested number of transaction per page. Default 20. Max 200.
-    fingerprint			The fingerprint of the last transaction returned by the previous page
-    fields				The fields to be returned (comma separated). 
-    				If not specified, all the fields are returned.
-    sort				Pre sorts the results during the query.  
-    				It helps to return a better number of items in the first page.
-    				Example:
-    					sort=-block_number
-    					sort=+block_timestamp
-    				(The list of the supported parameters has to be decided in accord with 
-    				the database structure.)
-    from_timestamp		The timestamp from which the search start.
-     */
+
     const options = {
         only_to: true,
         only_confirmed: true,
         limit: 100,
-        sort: '-block_number'
+        order_by: 'timestamp,asc',
+        min_timestamp: Date.now() - 60000 // from a minute ago to go on
     };
-    
+
+    // awaiting
     const transactions = await tronGrid.account.getTransactions(address, options);
     console.log({transactions});
 
+    // promise
     tronGrid.account.getTransactions(address, options).then(transactions => {
         console.log({transactions});
     }).catch(err => console.error(err));
 
+    // callback
     tronGrid.account.getTransactions(address, options, (err, transactions) => {
         if (err)
             return console.error(err);
@@ -170,43 +150,19 @@ async function getTransactions() {
     });
 }
 
-async function getAssets() {
+async function getAsset() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
-    
-    /*
-    Options:
-    is_name			This is mandatory if the identifier is a name but looks like an id
-    				or an address.
-    				For example, if a token is named "1000562", TG3 won't be able 
-    				to recognize which is the case. So, if "1000562" is the name 
-    				of the token, the dev can force it adding:
-    					?is_name=true
-    limit				The requested number of assets per page. Default 20. Max 200.
-    fingerprint			The fingerprint of the last asset returned by the previous page.
-    				When there is a pagination, the minimum limit is set to 20.
-    sort				Pre sorts the results during the query. Example:
-    					sort=+total_supply (starts from the rarest token)
-    					sort=-start_time (starts from the most recent ICO)
-    filter				Filters to be applied to the results. It will be ignored if it is not
-    				applicable to the specific case.
-    				Accepted parameters:
-    					only_confirmed:		true | false		default false
-    					only_unconfirmed:		true | false		default false
-    */
-    const options = {
-        is_name: false,
-        limit: 100,
-        sort: '+total_supply',
-        only_confirmed: true
-    };
-    
-    const assets = await tronGrid.asset.get(address, options);
+
+    // awaiting
+    const assets = await tronGrid.asset.get(address);
     console.log({assets});
 
+    // promise
     tronGrid.asset.get(address, options).then(assets => {
         console.log({assets});
     }).catch(err => console.error(err));
 
+    // callback
     tronGrid.asset.get(address, options, (err, assets) => {
         if (err)
             return console.error(err);
@@ -221,6 +177,9 @@ getAssets();
 ```
 
 ### Version History
+
+__1.0.2__
+* Fix example in README using the new parameters min_timestamp, max_timestamp and order_by.
 
 __1.0.1__
 * Updates README for TronWeb 2.3.+.
