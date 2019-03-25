@@ -97,6 +97,8 @@ order_by            Sorts the results.
                         total_supply
                         start_time
                         end_time
+limit               Number of assets per page
+fingerprint         Previous fingerprint. For pagination.
 ```
 
 
@@ -168,6 +170,52 @@ fingerprint                The fingerprint of last event retrieved in the page
 
 #### `tronGrid.transaction.getEvents(id, options)`
 It returns all the events emitted in the transaction specified by `id`
+
+
+## Responses and pagination
+
+Any API will return a response with a success property, a data array and a meta object.
+For example, `await tronGrid.asset.getAll()` will return something like
+
+```
+{
+    "success": true,
+    "data": [
+        {
+            "confirmed": true,
+            "id": "1002225",
+            "abbr": "DbDsgVP3GRh",
+            "description": "KEYS unlock Cryptocurrency. Keys are a digital asset designed to work as medium of exchange.",
+            "frozen_supply": [
+                {
+                    "forzen_days": 730,
+                    "frozen_amount": 75926666666
+                }
+            ],
+            "name": "KEYS",
+            "num": 22778,
+            "precision": 0,
+            "total_supply": 227780000000,
+            "trx_num": 22778,
+            "url": "www.KEYS.crypto.org",
+            "vote_score": 0,
+            "owner_address": "4149b3dad5ef9dbab6a059fc95159efcecd5db910e",
+            "start_time": 1553538720706,
+            "end_time": 1553538960706
+        },
+        ...
+    ],
+    "meta": {
+        "total": 2,
+        "at": 1553548776704,
+        "fingerprint": "8xuwf4jd2dpoSms5KzLhxY9fmCm9oJA5164Qd7T2SexRSHYCwvRAr2zJGtwJceEcGWz",
+        ...
+    }
+}
+
+```
+
+As you can see, in the meta fields, there is the fingerprint you must pass to next request as an option in order to get next page.
 
 
 ## Usage
