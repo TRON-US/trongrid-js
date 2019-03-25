@@ -4,7 +4,7 @@ __[TronGridJS - Developer Document](https://developers.tron.network/docs/trongri
 
 TronGridJS is a Javascript library for utilizing TronGrid APIs to retrieve blockchain data from the Tron network.
 
-# Compatibility
+## Compatibility
 - Version built for Node.js v6 and above
 - Version built for browsers with more than 0.25% market share
 
@@ -15,39 +15,39 @@ TronGridJS is also compatible with frontend frameworks such as:
 
 You can also ship TronGridJS in a Chrome extension.
 
-# Installation
+## Installation
 
 __[TronGridJS - NPM Package](https://www.npmjs.com/package/trongrid)__
 
-## NPM
+#### NPM
 ```bash
 > npm install trongrid
 ```
 
-## Yarn
+#### Yarn
 ```bash
 > yarn add trongrid
 ```
 
-# Build Steps
+## Build Steps
 
 If you'd like to download and build locally, please follow the steps below.
 ```bash
-> git clone https://github.com/TRON-US/trongrid-js.git
-> cd trongrid-js
-> yarn install
-> yarn dev
-> yarn build
-> yarn test
+git clone https://github.com/TRON-US/trongrid-js.git
+cd trongrid-js
+yarn install
+yarn dev
+yarn build
+yarn test
 ```
 
-# Supported APIs
+## Supported APIs
 
 TronGridJS allows to easily access the new v1 API provided by TronGrid.
 
 ---
 
-### `tronGrid.account.get(accountAddress, options)`
+#### `tronGrid.account.get(accountAddress, options)`
 It returns info about the account at `accountAddress`
 
 Options:
@@ -60,7 +60,7 @@ It substitutes the following JavaTron API:
 
 ---
 
-### `tronGrid.account.getTransations(accountAddress, options)`
+#### `tronGrid.account.getTransations(accountAddress, options)`
 It returns all the transactions related to the account at `accountAddress`.
 
 Options:
@@ -87,7 +87,7 @@ It substitutes the following JavaTron API:
 
 ---
 
-### `tronGrid.asset.getAll(options)`
+#### `tronGrid.asset.getAll(options)`
 It returns all the assets on the TRON platform.
 
 Options:
@@ -102,7 +102,7 @@ order_by            Sorts the results.
 ```
 ---
 
-### `tronGrid.asset.get(assetIdentifier, options)`
+#### `tronGrid.asset.get(assetIdentifier, options)`
 It returns an asset identified by the address of its owner, or its own ID
 It substitutes the following JavaTron API:
 * /wallet/getassetissuebyaccount
@@ -110,7 +110,7 @@ It substitutes the following JavaTron API:
 
 ---
 
-### `tronGrid.asset.getList(assetName, options)`
+#### `tronGrid.asset.getList(assetName, options)`
 It returns all the asset with the name `assetName`
 
 Options:
@@ -140,13 +140,13 @@ It substitutes the following JavaTron API:
 
 ---
 
-### `tronGrid.block.getEvents(identifier, options)`
+#### `tronGrid.block.getEvents(identifier, options)`
 It returns all the events of a specific block.
 The identifier can be either `latest` or a block number.
 
 ---
 
-### `tronGrid.contract.getEvents(contractAddress, options)`
+#### `tronGrid.contract.getEvents(contractAddress, options)`
 It returns all the events emitted by a smart contract.
 
 Options:
@@ -168,25 +168,19 @@ fingerprint                The fingerprint of last event retrieved in the page
 
 ---
 
-### `tronGrid.transaction.getEvents(id, options)`
+#### `tronGrid.transaction.getEvents(id, options)`
 It returns all the events emitted in the transaction specified by `id`
 
 
-# Usage
+## Usage
 
-## Install [TronWeb](https://github.com/tronprotocol/tron-web)
+Install [TronWeb](https://github.com/tronprotocol/tron-web) if you don't have done it yet.
 
-### NPM
 ```bash
-> npm install tronweb
+npm install tronweb
 ```
 
-## Yarn
-```bash
-> yarn add tronweb
-```
-
-## Initialize TronWeb and create TronGridJS instance
+Initialize TronWeb and create TronGridJS instance
 
 ```js
 const TronGrid = require('trongrid');
@@ -200,7 +194,7 @@ const tronGrid = new TronGrid(tronWeb);
 
 ```
 
-## Example
+### Example
 
 ```js
 const TronGrid = require('trongrid');
@@ -295,7 +289,7 @@ getTransactions();
 getAssets();
 ```
 
-## Version History
+### Version History
 
 __1.0.2__
 * Fix example in README using the new parameters min_timestamp, max_timestamp and order_by.
