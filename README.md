@@ -109,6 +109,7 @@ const tronWeb = new TronWeb({
 );
 
 const tronGrid = new TronGrid(tronWeb);
+tronGrid.setExperimental('your experimental key');
 
 async function getAccount() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
@@ -165,8 +166,9 @@ async function getTransactions() {
     });
 }
 
-async function getAsset() {
-    const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
+async function getAssets() {
+    const address = 'TXk39yyhzpfbqtU1BATUzpcfQ37L8Tc4Ht';
+    const options = {};
 
     // awaiting
     const assets = await tronGrid.asset.get(address);
