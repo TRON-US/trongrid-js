@@ -25,6 +25,10 @@ export default class TronGrid {
         this.experimental = undefined;
     }
 
+    setExperimental(code) {
+        this.experimental = code;
+    }
+
     async getTransactions(address = this.tronWeb.defaultAddress.hex, direction = 'all', limit = 20, offset = 0, callback = false) {
 
         if (utils.isFunction(offset)) {
