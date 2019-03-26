@@ -1,7 +1,7 @@
 const TronWeb = require('../setup/TronWeb');
 const {assert} = require('../helpers/includes');
 const TronGrid = require('../setup/TronGrid');
-// const {LOCAL} = require('../helpers/config');
+const {LOCAL} = require('../helpers/config');
 
 describe('#pluginInterface for walletextension plugin', function () {
 
@@ -9,8 +9,7 @@ describe('#pluginInterface for walletextension plugin', function () {
 
     before(async function () {
         tronWeb = new TronWeb({
-            // for now Tron Quickstart does not support it
-            fullHost: 'http://localhost:8060'
+            fullHost: LOCAL.HOST
         })
 
         tronWeb.plugin.register(TronGrid, {experimental: 'RVg3e7ma'});
