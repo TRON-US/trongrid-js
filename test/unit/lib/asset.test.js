@@ -71,7 +71,7 @@ describe('#asset functional unit test', function () {
 
         it('should get assets list', async function () {
             const res = await tronGrid.asset.getAll({limit: 1, order_by:'id,asc'});
-            assert.equal(res.data[0].name, tronGrid.tronWeb.toHex('SEED').substring(2));
+            assert.equal(res.data[0].name, 'SEED');
         });
 
     });
