@@ -1,6 +1,6 @@
 {
     "name": "trongrid",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "JavaScript SDK that encapsulates the TG3 HTTP API",
     "main": "dist/trongrid.node.js",
     "scripts": {
