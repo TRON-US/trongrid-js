@@ -119,9 +119,7 @@ export default class Contract extends Base {
         let since = Date.now() - 1000;
         
         const eventWatcher = async () => {
-            try {
-                
-                
+            try {                
                 options = Object.assign({
                     eventName,
                     minBlockTimestamp: since,
