@@ -18,21 +18,22 @@ export default class Contract extends Base {
      * @returns list of events
      */
     getEvents(contractAddress, options = {}, callback = false) {
-
         let {
             onlyConfirmed,
             onlyUnconfirmed,
             eventName,
             blockNumber,
-            fromTimestamp,
-            size,
-            previousFingerprint,
-            sort
+            minBlockTimestamp,
+            maxBlockTimestamp,
+            fingerprint,
+            orderBy,
+            limit
         } = Object.assign({
-            fromTimestamp: 0,
+            minBlockTimestamp: 0,
+            maxBlockTimestamp: 'now',
             eventName: false,
             blockNumber: false,
-            size: 20
+            limit: 20
         }, options);
 
         if(!callback)
@@ -41,29 +42,30 @@ export default class Contract extends Base {
         if(!this.tronWeb.eventServer)
             return callback('No event server configured');
 
-        const routeParams = [];
-
         if(!this.tronWeb.isAddress(contractAddress))
             return callback('Invalid contract address provided');
 
         if(eventName && !contractAddress)
             return callback('Usage of event name filtering requires a contract address');
 
-        if(!utils.isInteger(fromTimestamp))
-            return callback('Invalid sinceTimestamp provided');
+        if(!utils.isInteger(minBlockTimestamp))
+            return callback('Invalid minBlockTimestamp provided');
 
-        if(!utils.isInteger(size))
-            return callback('Invalid size provided');
+        if(!utils.isInteger(maxBlockTimestamp) && maxBlockTimestamp !== 'now')
+            return callback('Invalid maxBlockTimestamp provided');
+        
+        if(!utils.isInteger(limit))
+        return callback('Invalid limit provided');
 
-        if(size > 200) {
-            console.warn('Defaulting to maximum accepted size: 200');
-            size = 200;
+        if(limit > 200) {
+            console.warn('Defaulting to maximum accepted limit: 200');
+            limit = 200;
         }
 
         if(blockNumber && !eventName)
             return callback('Usage of block number filtering requires an event name');
 
-        routeParams.push(this.tronWeb.address.fromHex(contractAddress));
+        contractAddress = (this.tronWeb.address.fromHex(contractAddress));
 
         const qs = {};
 
@@ -86,20 +88,20 @@ export default class Contract extends Base {
             qs.blockNumber = blockNumber;
         }
 
-        if (fromTimestamp) {
-            qs.fromTimestamp = fromTimestamp;
+        if (minBlockTimestamp) {
+            qs.minBlockTimestamp = minBlockTimestamp;
         }
 
-        if (size) {
-            qs.size = size;
+        if (fingerprint) {
+            qs.fingerprint = fingerprint;
         }
 
-        if (previousFingerprint) {
-            qs.previousFingerprint = previousFingerprint;
+        if (orderBy) {
+            qs.orderBy = orderBy;
         }
 
-        if (sort) {
-            qs.sort = sort;
+        if (limit) {
+            qs.limit = limit;
         }
 
         return this.tronWeb.eventServer.request(`v1/contracts/${contractAddress}/events?${querystring.stringify(qs)}`).then(response => {
@@ -109,6 +111,74 @@ export default class Contract extends Base {
                 callback(null, response);
             }
         }).catch(err => callback(err));
+    }
+
+    async watchEvent(contractAddress, eventName, options = {}, callback = false) {
+        let listener = false;
+        let lastBlock = false;
+        let since = Date.now() - 1000;
+        
+        const eventWatcher = async () => {
+            try {
+                
+                
+                options = Object.assign({
+                    eventName,
+                    minBlockTimestamp: since,
+                    orderBy: 'timestamp,desc',
+                    // TODO: 
+                    // add filters => eventron is already equipped for them
+                    // filters: options.filters
+                }, options)
+                
+                let events = await this.tronGrid.contract.getEvents(contractAddress, options)
+
+                const [latestEvent] = events.sort((a, b) => b.block_timestamp - a.block_timestamp);
+
+                const newEvents = events.filter((event, index) => {
+                    const duplicate = events.slice(0, index).some(priorEvent => (
+                            JSON.stringify(priorEvent) == JSON.stringify(event)
+                        ));
+            
+                    if (duplicate) return false;
+            
+                    if (!lastBlock) return true;
+            
+                    return event.block_timestamp > lastBlock;
+                });
+                        
+                if (latestEvent) lastBlock = latestEvent.block_timestamp;
+                return newEvents;
+
+            } catch (ex) {
+                return Promise.reject(ex);
+            }
+        };
+
+        const bindListener = () => {
+            if (listener)
+                clearInterval(listener);
+
+            listener = setInterval(() => {
+                eventWatcher().then(events => events.forEach(event => {
+                    callback(null, event)
+                })).catch(err => callback(err));
+            }, 3000);
+        };
+
+        await eventWatcher();
+        bindListener();
+
+        return {
+            start: bindListener(),
+            stop: () => {
+                if (!listener)
+                    return;
+
+                clearInterval(listener);
+                listener = false;
+            }
+        }
     }
 
 }
