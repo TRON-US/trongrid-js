@@ -1,9 +1,9 @@
-import Account from 'lib/Account';
-import Asset from 'lib/Asset';
-import Block from 'lib/Block';
-import Contract from 'lib/Contract';
-import Transaction from 'lib/Transaction';
-import TronWebPlugin from 'lib/TronWebPlugin';
+import Account from 'lib/core/account';
+import Asset from 'lib/core/asset';
+import Block from 'lib/core/block';
+import Contract from 'lib/core/contract';
+import Transaction from 'lib/core/transaction';
+import TronWebPlugin from 'lib/plugins/tronWebPlugin';
 
 let utils;
 let experimental;

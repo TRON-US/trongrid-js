@@ -13,8 +13,7 @@ const createInstance = net => {
             break;
         default:
             throw new Error('has to choose net in config.js');
-    }
-    ;
+    };
 
     let tronWeb = new TronWeb({
         fullHost: node.HOST,
@@ -23,7 +22,7 @@ const createInstance = net => {
     return new TronGrid(tronWeb);
 }
 
-let instance
+let instance;
 
 const getInstance = net => {
     if (!instance) {

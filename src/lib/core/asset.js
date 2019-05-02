@@ -1,4 +1,4 @@
-import Base from './Base';
+import Base from './base';
 
 let utils;
 
@@ -21,8 +21,7 @@ export default class Asset extends Base {
             options = {};
         }
 
-        if (!identifier || !(utils.isString(identifier) || utils.isInteger(identifier)))
-            return callback('Invalid identifier provided');
+        this.validator.validateAssetIdentifier(identifier);
 
         if (!callback)
             return this.injectPromise(this.get, identifier, options);
@@ -30,13 +29,7 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        this.apiNode.request(`v1/assets/${identifier}`, options, 'get').then(response => {
-            if (options.only_data_and_fingerprint) {
-                callback(null, response.data, response.meta.fingerprint);
-            } else {
-                callback(null, response);
-            }
-        }).catch(err => callback(err));
+        this.tgClient.get(`v1/assets/${identifier}`, options, callback);
     }
 
     /**
@@ -52,13 +45,9 @@ export default class Asset extends Base {
             options = {};
         }
 
-        if (!name || !utils.isString(name))
-            return callback('Invalid identifier provided');
+        this.validator.validateAssetIdentifier(name);
 
-        if (options.limit <= 0)
-            return callback('Limit must be greater than 0');
-        if (options.limit > 200)
-            return callback('Max limit is 200');
+        this.validator.validateOptions(options);
 
         if (!callback)
             return this.injectPromise(this.getList, name, options);
@@ -66,13 +55,7 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        this.apiNode.request(`v1/assets/${name}/list`, options, 'get').then(response => {
-            if (options.only_data_and_fingerprint) {
-                callback(null, response.data, response.meta.fingerprint);
-            } else {
-                callback(null, response);
-            }
-        }).catch(err => callback(err));
+        return this.tgClient.get(`v1/assets/${name}/list`, options, callback);
     }
 
     /**
@@ -88,10 +71,7 @@ export default class Asset extends Base {
             options = {};
         }
 
-        if (options.limit <= 0)
-            return callback('Limit must be greater than 0');
-        if (options.limit > 200)
-            return callback('Max limit is 200');
+        this.validator.validateOptions(options);
 
         if (!callback)
             return this.injectPromise(this.getAll, options);
@@ -99,12 +79,6 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        this.apiNode.request(`v1/assets`, options, 'get').then(response => {
-            if (options.only_data_and_fingerprint) {
-                callback(null, response.data, response.meta.fingerprint);
-            } else {
-                callback(null, response);
-            }
-        }).catch(err => callback(err));
+        return this.tgClient.get(`v1/assets`, options, callback);
     }
 }

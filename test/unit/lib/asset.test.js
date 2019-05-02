@@ -15,15 +15,8 @@ describe('#asset functional unit test', function () {
         this.timeout(10000);
     });
 
-    beforeEach(async function () {
-        this.timeout(10000);
-    });
-
-    afterEach(async function () {
-        this.timeout(10000);
-    });
-
     describe('#get asset by identifier', function () {
+        this.timeout(10000);
 
         const identifiers = [
             '1000001',
@@ -48,6 +41,7 @@ describe('#asset functional unit test', function () {
     });
 
     describe('#get asset by name', function () {
+        this.timeout(10000);
 
         const names = [
             '53454544',

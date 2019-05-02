@@ -8,7 +8,8 @@
         "build": "npm run clean && webpack --config webpack.config.js --progress --colors",
         "clean": "rimraf dist",
         "build:dev": "NODE_ENV=development npm run build",
-        "test": "node scripts/test-node.js && npx mocha 'test/**/*.test.js'"
+        "test": "node scripts/test-node.js && npx mocha 'test/**/*.test.js'",
+        "btest": "npm run build && npm run test"
     },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
