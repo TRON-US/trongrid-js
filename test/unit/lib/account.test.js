@@ -8,7 +8,7 @@ describe('#account functional unit test', function () {
     before(async function () {
         this.timeout(10000);
         tronGrid = tronGridBuilder.createInstance(net);
-        tronGrid.setExperimental('RVg3e7ma');
+        // tronGrid.setExperimental('RVg3e7ma');
     });
 
     after(async function () {

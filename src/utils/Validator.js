@@ -3,7 +3,7 @@ let utils;
 
 export default class Validator {
 
-    constructor(tronGrid = false) {
+    constructor(tronGrid) {
         tronWeb = tronGrid.tronWeb;
         utils = tronWeb.utils;
     }
