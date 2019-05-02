@@ -36,7 +36,6 @@ If you'd like to download and build locally, please follow the steps below.
 git clone https://github.com/TRON-US/trongrid-js.git
 cd trongrid-js
 yarn install
-yarn dev
 yarn build
 yarn test
 ```
@@ -63,20 +62,20 @@ It returns all the transactions related to the account at `accountAddress`.
 
 Options:
 ```
-only_confirmed      Shows only confirmed.
+onlyConfirmed       Shows only confirmed.
                         true | false        default false
-only_unconfirmed    Shows only unconfirmed.
+onlyUnconfirmed     Shows only unconfirmed.
                         true | false        default false
-only_to             Only transaction to address.
+onlyTo              Only transaction to address.
                         true | false       default false
-only_from           Only transaction from address.
+onlyFrom            Only transaction from address.
                         true | false        default false
 limit               The requested number of transaction per page. Default 20. Max 200.
 fingerprint         The fingerprint of the last transaction returned by the previous page
-order_by            Sorts the results of the query. Example:
-                        order_by=timestamp,desc
-min_timestamp       The minimum transaction timestamp        default 0
-max_timestamp       The maximum transaction timestamp        default now
+orderBy             Sorts the results of the query. Example:
+                        orderBy=timestamp,desc
+minBlockTimestamp       The minimum transaction timestamp        default 0
+maxBlockTimestamp       The maximum transaction timestamp        default now
 
 ```
 It substitutes the following JavaTron API:
@@ -90,7 +89,7 @@ It returns all the assets on the TRON platform.
 
 Options:
 ```
-order_by            Sorts the results.
+orderBy             Sorts the results.
                     Accepted fields:
                         id
                         name
@@ -118,7 +117,7 @@ Options:
 limit               The requested number of assets per page. Default 20. Max 200.
 fingerprint         The fingerprint of the last asset returned by the previous page.
                     When there is a pagination, the minimum limit is set to 20.
-order_by            Sorts the results of the query.
+orderBy             Sorts the results of the query.
                     Accepted fields:
                         id
                         name
@@ -126,10 +125,10 @@ order_by            Sorts the results of the query.
                         start_time
                         end_time
                     Example:
-                        order_by=start_time,desc   (starts from the most recent ICO)
-                        order_by=id,asc            (starts from the oldest)
+                        orderBy=start_time,desc   (starts from the most recent ICO)
+                        orderBy=id,asc            (starts from the oldest)
 
-only_confirmed      Shows only the situation at latest confirmed block.
+onlyConfirmed       Shows only the situation at latest confirmed block.
                         true | false        default false
 
 ```
@@ -151,19 +150,19 @@ It returns all the events emitted by a smart contract.
 
 Options:
 ```
-only_confirmed         Shows only confirmed.
-                            true | false                default false
-only_unconfirmed       Shows only unconfirmed.
-                            true | false                default false
-event_name             The name of the event
-block_number           The block number for which the events are required
-min_timestamp          The minimum block timestamp     default 0
-max_timestamp          The maximum block timestamp        default now
-order_by               Sort the events. Accepted values:
-                            timestamp,asc
-                            timestamp,desc         (default)
-limit                  For pagination.                 default 20, max 200
-fingerprint                The fingerprint of last event retrieved in the page
+onlyConfirmed       Shows only confirmed.
+                        true | false                default false
+onlyUnconfirmed     Shows only unconfirmed.
+                        true | false                default false
+eventName           The name of the event
+blockNumber         The block number for which the events are required
+minBlockTimestamp       The minimum block timestamp     default 0
+maxBlockTimestamp       The maximum block timestamp        default now
+orderBy             Sort the events. Accepted values:
+                        timestamp,asc
+                        timestamp,desc         (default)
+limit               For pagination.                 default 20, max 200
+fingerprint             The fingerprint of last event retrieved in the page
 ```
 
 
@@ -257,8 +256,8 @@ async function getAccount() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
 
     const options = {
-        Show_assets: true,
-        only_confirmed: true,
+        show_assets: true,
+        onlyConfirmed: true,
     };
 
     // awaiting
@@ -283,11 +282,11 @@ async function getTransactions() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
 
     const options = {
-        only_to: true,
-        only_confirmed: true,
+        onlyTo: true,
+        onlyConfirmed: true,
         limit: 100,
-        order_by: 'timestamp,asc',
-        min_timestamp: Date.now() - 60000 // from a minute ago to go on
+        orderBy: 'timestamp,asc',
+        minBlockTimestamp: Date.now() - 60000 // from a minute ago to go on
     };
 
     // awaiting
@@ -338,7 +337,7 @@ getAssets();
 ### Version History
 
 __1.0.2__
-* Fix example in README using the new parameters min_timestamp, max_timestamp and order_by.
+* Fix example in README using the new parameters minBlockTimestamp, maxBlockTimestamp and orderBy.
 
 __1.0.1__
 * Updates README for TronWeb 2.3.+.
