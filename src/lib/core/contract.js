@@ -20,19 +20,10 @@ export default class Contract extends Base {
      */
     getEvents(contractAddress, options = {}, callback = false) {
 
-        let {
-            eventName,
-            blockNumber,
-            minBlockTimestamp,
-            maxBlockTimestamp,
-            limit
-        } = Object.assign({
-            minBlockTimestamp: 0,
-            maxBlockTimestamp: 'now',
-            eventName: false,
-            blockNumber: false,
-            limit: 20
-        }, options);
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
 
         if(!callback)
             return this.injectPromise(this.getEvents, contractAddress, options);
@@ -42,28 +33,6 @@ export default class Contract extends Base {
         this.validator.validateOptions(options);
 
         contractAddress = this.tronWeb.address.fromHex(contractAddress);
-
-        const qs = {};
-
-        if (eventName) {
-            qs.eventName = eventName;
-        }
-
-        if (blockNumber) {
-            qs.blockNumber = blockNumber;
-        }
-
-        if (minBlockTimestamp) {
-            qs.minBlockTimestamp = minBlockTimestamp;
-        }
-
-        if (maxBlockTimestamp) {
-            qs.maxBlockTimestamp = maxBlockTimestamp;
-        }
-
-        if (limit) {
-            qs.limit = limit;
-        }
 
         return this.tgClient.get(`v1/contracts/${contractAddress}/events`, options, callback);
     }

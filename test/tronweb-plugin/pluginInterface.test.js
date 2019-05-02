@@ -10,7 +10,7 @@ describe('#pluginInterface for walletextension plugin', function () {
     before(async function () {
         tronWeb = new TronWeb({
             fullHost: LOCAL.HOST
-        })
+        });
 
         tronWeb.plugin.register(TronGrid, {experimental: 'RVg3e7ma'});
 

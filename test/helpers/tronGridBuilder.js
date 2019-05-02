@@ -1,6 +1,6 @@
 const TronWeb = require('tronweb');
 const TronGrid = require('../setup/TronGrid');
-const {SHASTA, LOCAL} = require('./config');
+const {SHASTA, LOCAL, NET} = require('./config');
 
 const createInstance = net => {
     let node;
@@ -31,9 +31,28 @@ const getInstance = net => {
     return instance;
 };
 
+const getTestAccounts = async (block) => {
+    const accounts = {
+        b58: [],
+        hex: [],
+        pks: []
+    }
+    const tronGrid = createInstance(NET);
+    const tronWeb = tronGrid.tronWeb;
+    const accountsJson = await tronWeb.fullNode.request('/admin/accounts-json');
+    accounts.pks = accountsJson.privateKeys;
+    for (let i = 0; i < accounts.pks.length; i++) {
+        let addr = tronWeb.address.fromPrivateKey(accounts.pks[i]);
+        accounts.b58.push(addr);
+        accounts.hex.push(tronWeb.address.toHex(addr));
+    }
+    return Promise.resolve(accounts);
+}
+
 module.exports = {
     createInstance,
     getInstance,
+    getTestAccounts,
     TronGrid
 };
 
