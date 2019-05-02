@@ -1,4 +1,4 @@
-import Base from './base';
+import Base from './Base';
 
 let utils;
 
@@ -28,7 +28,7 @@ export default class Block extends Base {
 
         this.validator.validateBlockNumber(blockNumber);
 
-        return this.tgClient.get(`v1/blocks/${blockNumber}/events`, options, callback);
+        return this.APIClient.get(`v1/blocks/${blockNumber}/events`, options, callback);
 
     }
 

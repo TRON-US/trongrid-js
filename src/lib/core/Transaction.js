@@ -1,4 +1,4 @@
-import Base from './base';
+import Base from './Base';
 
 let utils;
 
@@ -28,7 +28,7 @@ export default class Transaction extends Base {
 
         this.validator.validateTransactionId(transactionID);
 
-        return this.tgClient.get(`v1/transactions/${transactionID}/events`, options, callback);
+        return this.APIClient.get(`v1/transactions/${transactionID}/events`, options, callback);
     }
 
 }

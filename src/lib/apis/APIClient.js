@@ -1,14 +1,16 @@
 
-export default class TgClient {
+export default class APIClient {
 
     constructor(apiNode) {
         this.apiNode = apiNode;
     }
 
-    _httpClient(path, options, callback, method = 'get') {
+    _httpClient(method = 'get', ...params) {
 
-        this.apiNode.request(path, options, method).then(response => {
-            if (options.only_data_and_fingerprint) {
+        const callback = params[2];
+
+        this.apiNode.request(params[0], params[1], method).then(response => {
+            if (params[1].only_data_and_fingerprint) {
                 callback(null, response.data, response.meta.fingerprint);
             } else {
                 callback(null, response);
@@ -17,8 +19,8 @@ export default class TgClient {
 
     }
 
-    get(...params) {
-        return this._httpClient(params[0], params[1], params[2], 'get');
+    get(path, options, callback) {
+        return this._httpClient('get', path, options, callback);
     }
 
     //TODO

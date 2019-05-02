@@ -1,4 +1,4 @@
-import Base from './base';
+import Base from './Base';
 
 let utils;
 
@@ -34,7 +34,7 @@ export default class Account extends Base {
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
-        return this.tgClient.get(`v1/accounts/${address}`, options, callback);
+        return this.APIClient.get(`v1/accounts/${address}`, options, callback);
     }
 
     /**
@@ -61,7 +61,7 @@ export default class Account extends Base {
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
-        return this.tgClient.get(`v1/accounts/${address}/transactions`, options, callback);
+        return this.APIClient.get(`v1/accounts/${address}/transactions`, options, callback);
     }
 
 }

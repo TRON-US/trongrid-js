@@ -1,6 +1,4 @@
-import Base from './base';
-import querystring from 'querystring';
-import validator from '../../utils/validator';
+import Base from './Base';
 
 let utils;
 
@@ -34,7 +32,7 @@ export default class Contract extends Base {
 
         contractAddress = this.tronWeb.address.fromHex(contractAddress);
 
-        return this.tgClient.get(`v1/contracts/${contractAddress}/events`, options, callback);
+        return this.APIClient.get(`v1/contracts/${contractAddress}/events`, options, callback);
     }
 
     async watchEvent(contractAddress, eventName, options = {}, callback = false) {

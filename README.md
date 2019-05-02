@@ -73,7 +73,7 @@ onlyFrom            Only transaction from address.
 limit               The requested number of transaction per page. Default 20. Max 200.
 fingerprint         The fingerprint of the last transaction returned by the previous page
 orderBy             Sorts the results of the query. Example:
-                        orderBy=timestamp,desc
+                        orderBy=block_timestamp,desc
 minBlockTimestamp       The minimum transaction timestamp        default 0
 maxBlockTimestamp       The maximum transaction timestamp        default now
 
@@ -256,7 +256,7 @@ async function getAccount() {
     const address = 'TPL66VK2gCXNCD7EJg9pgJRfqcRazjhUZY';
 
     const options = {
-        show_assets: true,
+        showAssets: true,
         onlyConfirmed: true,
     };
 

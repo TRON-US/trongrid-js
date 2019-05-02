@@ -1,4 +1,4 @@
-import Base from './base';
+import Base from './Base';
 
 let utils;
 
@@ -29,7 +29,7 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        this.tgClient.get(`v1/assets/${identifier}`, options, callback);
+        this.APIClient.get(`v1/assets/${identifier}`, options, callback);
     }
 
     /**
@@ -55,7 +55,7 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        return this.tgClient.get(`v1/assets/${name}/list`, options, callback);
+        return this.APIClient.get(`v1/assets/${name}/list`, options, callback);
     }
 
     /**
@@ -79,6 +79,6 @@ export default class Asset extends Base {
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
 
-        return this.tgClient.get(`v1/assets`, options, callback);
+        return this.APIClient.get(`v1/assets`, options, callback);
     }
 }
