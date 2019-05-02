@@ -1,4 +1,4 @@
-import Base from './Base';
+import Base from '../core/Base';
 
 let utils;
 let account;

@@ -26,8 +26,7 @@ export default class Account extends Base {
         if (!callback)
             return this.injectPromise(this.get, address, options);
 
-        if (!this.tronWeb.isAddress(address))
-            return callback('Invalid address provided');
+        this.validator.validateAddress(address);
 
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
@@ -35,13 +34,7 @@ export default class Account extends Base {
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
-        this.apiNode.request(`v1/accounts/${address}`, options, 'get').then(response => {
-            if (options.only_data_and_fingerprint) {
-                callback(null, response.data, response.meta.fingerprint);
-            } else {
-                callback(null, response);
-            }
-        }).catch(err => callback(err));
+        return this.APIClient.get(`v1/accounts/${address}`, options, callback);
     }
 
     /**
@@ -60,8 +53,7 @@ export default class Account extends Base {
         if (!callback)
             return this.injectPromise(this.getTransactions, address, options);
 
-        if (!this.tronWeb.isAddress(address))
-            return callback('Invalid address provided');
+        this.validator.validateAddress(address);
 
         if (this.tronGrid.experimental)
             options.experimental = this.tronGrid.experimental;
@@ -69,13 +61,7 @@ export default class Account extends Base {
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
-        this.apiNode.request(`v1/accounts/${address}/transactions`, options, 'get').then(response => {
-            if (options.only_data_and_fingerprint) {
-                callback(null, response.data, response.meta.fingerprint);
-            } else {
-                callback(null, response);
-            }
-        }).catch(err => callback(err));
+        return this.APIClient.get(`v1/accounts/${address}/transactions`, options, callback);
     }
 
 }

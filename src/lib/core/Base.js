@@ -1,4 +1,6 @@
-import TronGrid from '..';
+import TronGrid from '../../index';
+import APIClient from '../apis/APIClient';
+import validator from '../../utils/Validator';
 
 class Base {
 
@@ -11,6 +13,8 @@ class Base {
         this.injectPromise = this.tronWeb.utils.promiseInjector(this);
         this.apiNode = this.tronWeb.eventServer;
         this.utils = this.tronWeb.utils;
+        this.validator = new validator(tronGrid);
+        this.APIClient = new APIClient(this.apiNode);
     }
 
 }
