@@ -8,6 +8,18 @@ export default class Validator {
         utils = tronWeb.utils;
     }
 
+    validatePageData(data) {
+        if (!data) {
+            throw new Error('Invalid data provided.');
+        } else if (typeof data !== 'string' && typeof data !== 'object'){
+            throw new Error('Invalid data format provided.');
+        } else if (typeof data === 'string' && data.indexOf('fingerprint') === -1) {
+            throw new Error('It\'s the last page or missed fingerprint in the links.');
+        } else if (typeof data === 'object' && (!data.meta || !data.meta.fingerprint)) {
+            throw new Error('It\'s the last page or missed fingerprint in the json.');
+        }
+    }
+
     validateAddress(address) {
         if (!tronWeb.isAddress(address))
             throw new Error('Invalid address provided.');

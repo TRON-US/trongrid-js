@@ -4,6 +4,8 @@ import Block from 'lib/core/Block';
 import Contract from 'lib/core/Contract';
 import Transaction from 'lib/core/Transaction';
 import TronWebPlugin from 'lib/plugins/TronWebPlugin';
+import APIClient from 'lib/apis/APIClient';
+import validator from 'utils/Validator';
 
 let utils;
 let experimental;
@@ -21,6 +23,9 @@ export default class TronGrid {
         this.block = new Block(this);
         this.contract = new Contract(this);
         this.transaction = new Transaction(this);
+        this.apiClient = new APIClient(this);
+        this.validator = new validator(this);
+        this.injectPromise = this.tronWeb.utils.promiseInjector(this);
 
         this.experimental = undefined;
     }
@@ -43,6 +48,19 @@ export default class TronGrid {
                 }
             }
         }
+    }
 
+    nextPage(data, callback) {
+
+        if (!callback)
+            return this.injectPromise(this.nextPage, data);
+
+        this.validator.validatePageData(data);
+
+        if (typeof data === 'string') {
+            return this.apiClient.get(data, {}, callback);
+        } else if (typeof data === 'object') {
+            return this.apiClient.get(data.meta.links.next, {}, callback);
+        }
     }
 }

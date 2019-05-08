@@ -28,9 +28,6 @@ export default class Account extends Base {
 
         this.validator.validateAddress(address);
 
-        if (this.tronGrid.experimental)
-            options.experimental = this.tronGrid.experimental;
-
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);
 
@@ -54,9 +51,6 @@ export default class Account extends Base {
             return this.injectPromise(this.getTransactions, address, options);
 
         this.validator.validateAddress(address);
-
-        if (this.tronGrid.experimental)
-            options.experimental = this.tronGrid.experimental;
 
         if (address.length !== 34)
             address = this.tronWeb.address.fromHex(address);

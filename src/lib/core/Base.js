@@ -14,7 +14,7 @@ class Base {
         this.apiNode = this.tronWeb.eventServer;
         this.utils = this.tronWeb.utils;
         this.validator = new validator(tronGrid);
-        this.APIClient = new APIClient(this.apiNode);
+        this.APIClient = new APIClient(tronGrid);
     }
 
 }
