@@ -48,7 +48,7 @@ export default class Validator {
     validateOptions(options) {
         if (options.limit) {
             if (!utils.isInteger(options.limit) || options.limit < 0 || options.limit > 200) {
-                throw new Error('Limit should be a number between 0 anyard 200.');
+                throw new Error('Limit should be a number between 0 and 200.');
             }
         }
         if (options.blockNumber && !options.eventName) {
