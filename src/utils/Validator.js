@@ -55,10 +55,10 @@ export default class Validator {
             throw new Error('Usage of block number filtering requires an event name.');
         }
         if (options.minBlockTimestamp && !utils.isInteger(options.minBlockTimestamp)) {
-            throw new Error('Invalid minBlockTimestamp provided');
+            throw new Error('Invalid minBlockTimestamp provided.');
         }
         if (options.maxBlockTimestamp && (!utils.isInteger(options.maxBlockTimestamp) && options.maxBlockTimestamp !== 'now')) {
-            throw new Error('Invalid maxBlockTimestamp provided');
+            throw new Error('Invalid maxBlockTimestamp provided.');
         }
     }
 
