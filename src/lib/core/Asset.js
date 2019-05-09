@@ -52,9 +52,6 @@ export default class Asset extends Base {
         if (!callback)
             return this.injectPromise(this.getList, name, options);
 
-        if (this.tronGrid.experimental)
-            options.experimental = this.tronGrid.experimental;
-
         return this.APIClient.get(`v1/assets/${name}/list`, options, callback);
     }
 
@@ -75,9 +72,6 @@ export default class Asset extends Base {
 
         if (!callback)
             return this.injectPromise(this.getAll, options);
-
-        if (this.tronGrid.experimental)
-            options.experimental = this.tronGrid.experimental;
 
         return this.APIClient.get(`v1/assets`, options, callback);
     }

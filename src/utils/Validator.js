@@ -8,6 +8,18 @@ export default class Validator {
         utils = tronWeb.utils;
     }
 
+    validatePageData(data) {
+        if (!data) {
+            throw new Error('Invalid data provided.');
+        } else if (typeof data !== 'string' && typeof data !== 'object'){
+            throw new Error('Invalid data format provided.');
+        } else if (typeof data === 'string' && data.indexOf('fingerprint') === -1) {
+            throw new Error('It\'s the last page or missed fingerprint in the links.');
+        } else if (typeof data === 'object' && (!data.meta || !data.meta.fingerprint)) {
+            throw new Error('It\'s the last page or missed fingerprint in the json.');
+        }
+    }
+
     validateAddress(address) {
         if (!tronWeb.isAddress(address))
             throw new Error('Invalid address provided.');
@@ -36,17 +48,17 @@ export default class Validator {
     validateOptions(options) {
         if (options.limit) {
             if (!utils.isInteger(options.limit) || options.limit < 0 || options.limit > 200) {
-                throw new Error('Limit should be a number between 0 anyard 200.');
+                throw new Error('Limit should be a number between 0 and 200.');
             }
         }
         if (options.blockNumber && !options.eventName) {
             throw new Error('Usage of block number filtering requires an event name.');
         }
         if (options.minBlockTimestamp && !utils.isInteger(options.minBlockTimestamp)) {
-            throw new Error('Invalid minBlockTimestamp provided');
+            throw new Error('Invalid minBlockTimestamp provided.');
         }
         if (options.maxBlockTimestamp && (!utils.isInteger(options.maxBlockTimestamp) && options.maxBlockTimestamp !== 'now')) {
-            throw new Error('Invalid maxBlockTimestamp provided');
+            throw new Error('Invalid maxBlockTimestamp provided.');
         }
     }
 

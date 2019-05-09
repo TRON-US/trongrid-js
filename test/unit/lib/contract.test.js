@@ -9,7 +9,6 @@ describe('#contract functional unit test', function () {
         this.timeout(10000);
         tronGrid = tronGridBuilder.createInstance(net);
         tronWeb = tronGrid.tronWeb;
-        tronWeb.setEvent
     });
 
     after(async function () {
@@ -28,7 +27,7 @@ describe('#contract functional unit test', function () {
         });
     });
 
-    describe('#contract.watchEvent()', function () {
+    describe.skip('#contract.watchEvent()', function () {
 
         let accounts;
         let contract;

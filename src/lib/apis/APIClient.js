@@ -1,11 +1,16 @@
 
 export default class APIClient {
 
-    constructor(apiNode) {
-        this.apiNode = apiNode;
+    constructor(tronGrid) {
+        this.tronGrid = tronGrid;
+        this.apiNode = tronGrid.tronWeb.eventServer;
     }
 
     _httpClient(path, options, callback, method = 'get') {
+
+        if (!options.experimental && this.tronGrid.experimental) {
+            options.experimental = this.tronGrid.experimental;
+        }
 
         this.apiNode.request(path, options, method).then(response => {
             if (options.only_data_and_fingerprint) {
