@@ -335,13 +335,24 @@ getAssets();
 ```
 
 ### Version History
+__1.2.1__
+* Update README for version history.
+
+__1.2.0__
+* Add nextPage function for pagination.
+
+__1.1.0__
+* Improve structure and add httpClient for request module.
+* Add events watch function under contract.
+
+__1.0.3__
+* Add validators.
 
 __1.0.2__
 * Fix example in README using the new parameters minBlockTimestamp, maxBlockTimestamp and orderBy.
 
 __1.0.1__
 * Updates README for TronWeb 2.3.+.
-
 
 __1.0.0__
 * Supports retrieving info, transactions, and assets by identifier.
