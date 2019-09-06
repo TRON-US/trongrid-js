@@ -35,6 +35,30 @@ export default class Contract extends Base {
         return this.APIClient.get(`v1/contracts/${contractAddress}/events`, options, callback);
     }
 
+    /**
+     * @name TG API: /v1//contracts/:contractAdderss/tokens
+     * @param contractAddress
+     * @param options(onlyConfirmed, onlyUnconfirmed, previousFingerprint, orderBy, limit)
+     * @param callback
+     * @returns list of trc20 tokens
+     */
+    getTrc20Tokens(contractAddress, options = {}, callback = false) {
+
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if(!callback)
+            return this.injectPromise(this.getTrc20Tokens, contractAddress, options);
+
+        this.validator.validateAddress(contractAddress);
+
+        contractAddress = this.tronWeb.address.fromHex(contractAddress);
+
+        return this.APIClient.get(`v1/contracts/${contractAddress}/tokens`, options, callback);
+    }
+
     async watchEvent(contractAddress, eventName, options = {}, callback = false) {
         let listener = false;
         let lastBlock = false;

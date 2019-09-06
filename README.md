@@ -335,6 +335,9 @@ getAssets();
 ```
 
 ### Version History
+__1.2.2__
+* Add getTrc20Tokens function inside contract.
+
 __1.2.1__
 * Update README for version history.
 

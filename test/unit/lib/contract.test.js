@@ -27,6 +27,22 @@ describe('#contract functional unit test', function () {
         });
     });
 
+
+    describe.only('#get trc20 tokens by contract address', function () {
+        this.timeout(10000);
+
+        it('should get trc20 tokens without filter', async function () {
+            let contractAddress = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t';
+            const tokens = await tronGrid.contract.getTrc20Tokens(contractAddress, {only_data_and_fingerprint: true});
+            assert.isArray(tokens)
+            for (let token of tokens) {
+                let accountAddress = Object.keys(token)[0]
+                assert.isTrue(tronWeb.isAddress(accountAddress))
+                assert.isNumber(token[accountAddress]);
+            }
+        });
+    });
+
     describe.skip('#contract.watchEvent()', function () {
 
         let accounts;
