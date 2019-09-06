@@ -28,7 +28,7 @@ describe('#contract functional unit test', function () {
     });
 
 
-    describe.only('#get trc20 tokens by contract address', function () {
+    describe('#get trc20 tokens by contract address', function () {
         this.timeout(10000);
 
         it('should get trc20 tokens without filter', async function () {
