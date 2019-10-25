@@ -55,7 +55,7 @@ describe('#account functional unit test', function () {
         });
     });
 
-    describe.only('#get trc20 transaction by account address', function () {
+    describe('#get trc20 transaction by account address', function () {
         this.timeout(10000);
 
         const addresses = [
@@ -70,6 +70,9 @@ describe('#account functional unit test', function () {
                 const res = await tronGrid.account.getTrc20Transactions(address, {});
                 for (let tx of res.data) {
                     assert.isTrue(tx.from === address || tx.to === address);
+                    assert.notEqual(tx.value, '');
+                    assert.isTrue(tx.type === 'Transfer' || tx.type === 'Approval');
+                    assert.isTrue(Object.keys(tx.token_info).length !== 0);
                 }
             }
         });
