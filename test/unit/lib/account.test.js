@@ -55,4 +55,27 @@ describe('#account functional unit test', function () {
         });
     });
 
+    describe('#get trc20 transaction by account address', function () {
+        this.timeout(10000);
+
+        const addresses = [
+            'TJQ1vgSGsUuoDQUW5fZVM4mRYqyDXSecif',
+            'TM6vkdemCZaLFG6CirzgDVSkGpJKbzzbyS',
+            'TJQ1vgSGsUuoDQUW5fZVM4mRYqyDXSecif'
+        ];
+
+        it('should get trc20 transaction by address', async function () {
+
+            for (let address of addresses) {
+                const res = await tronGrid.account.getTrc20Transactions(address, {});
+                for (let tx of res.data) {
+                    assert.isTrue(tx.from === address || tx.to === address);
+                    assert.notEqual(tx.value, '');
+                    assert.isTrue(tx.type === 'Transfer' || tx.type === 'Approval');
+                    assert.isTrue(Object.keys(tx.token_info).length !== 0);
+                }
+            }
+        });
+    });
+
 })

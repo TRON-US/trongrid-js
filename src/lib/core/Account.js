@@ -58,4 +58,28 @@ export default class Account extends Base {
         return this.APIClient.get(`v1/accounts/${address}/transactions`, options, callback);
     }
 
+    /**
+     * @name TG3 API: /v1/accounts/:address/transactions/trc20
+     * @param address
+     * @param options
+     * @param callback
+     * @returns list of transactions
+     */
+    getTrc20Transactions(address, options = {}, callback = false) {
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if (!callback)
+            return this.injectPromise(this.getTrc20Transactions, address, options);
+
+        this.validator.validateAddress(address);
+
+        if (address.length !== 34)
+            address = this.tronWeb.address.fromHex(address);
+
+        return this.APIClient.get(`v1/accounts/${address}/transactions/trc20`, options, callback);
+    }
+
 }
