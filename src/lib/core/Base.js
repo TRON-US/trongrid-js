@@ -1,6 +1,7 @@
 import TronGrid from '../../index';
 import APIClient from '../apis/APIClient';
 import validator from '../../utils/Validator';
+import injectpromise from 'injectpromise';
 
 class Base {
 
@@ -10,7 +11,7 @@ class Base {
 
         this.tronGrid = tronGrid;
         this.tronWeb = tronGrid.tronWeb;
-        this.injectPromise = this.tronWeb.utils.promiseInjector(this);
+        this.injectPromise = new injectpromise(this);
         this.apiNode = this.tronWeb.eventServer;
         this.utils = this.tronWeb.utils;
         this.validator = new validator(tronGrid);
