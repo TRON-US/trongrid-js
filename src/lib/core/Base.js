@@ -1,6 +1,7 @@
 import TronGrid from '../../index';
 import APIClient from '../apis/APIClient';
 import validator from '../../utils/Validator';
+import injectpromise from 'injectpromise';
 
 class Base {
 
