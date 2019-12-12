@@ -10,7 +10,7 @@ class Base {
 
         this.tronGrid = tronGrid;
         this.tronWeb = tronGrid.tronWeb;
-        this.injectPromise = this.tronWeb.utils.promiseInjector(this);
+        this.injectPromise = new injectpromise(this);
         this.apiNode = this.tronWeb.eventServer;
         this.utils = this.tronWeb.utils;
         this.validator = new validator(tronGrid);
