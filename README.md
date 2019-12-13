@@ -335,6 +335,9 @@ getAssets();
 ```
 
 ### Version History
+__1.2.4__
+* Fix injectpromise issue.
+
 __1.2.3__
 * Add getTrc20Transactions function inside account.
 
