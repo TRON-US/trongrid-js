@@ -26,7 +26,7 @@ export default class TronGrid {
         this.transaction = new Transaction(this);
         this.apiClient = new APIClient(this);
         this.validator = new validator(this);
-        this.injectPromise = new injectpromise(this);
+        this.injectPromise = injectpromise(this);
 
         this.experimental = undefined;
     }
