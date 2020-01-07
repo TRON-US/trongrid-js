@@ -1,7 +1,7 @@
 const {assert, tronGridBuilder, net} = require('../../helpers/includes')
 
 
-describe.only('#block functional unit test', function () {
+describe('#block functional unit test', function () {
 
     let tronGrid;
 
