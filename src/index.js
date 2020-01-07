@@ -6,6 +6,7 @@ import Transaction from 'lib/core/Transaction';
 import TronWebPlugin from 'lib/plugins/TronWebPlugin';
 import APIClient from 'lib/apis/APIClient';
 import validator from 'utils/Validator';
+import injectpromise from 'injectpromise';
 
 let utils;
 let experimental;
@@ -25,7 +26,7 @@ export default class TronGrid {
         this.transaction = new Transaction(this);
         this.apiClient = new APIClient(this);
         this.validator = new validator(this);
-        this.injectPromise = this.tronWeb.utils.promiseInjector(this);
+        this.injectPromise = injectpromise(this);
 
         this.experimental = undefined;
     }

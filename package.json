@@ -1,6 +1,6 @@
 {
     "name": "trongrid",
-    "version": "1.2.1",
+    "version": "1.2.3",
     "description": "JavaScript SDK that encapsulates the TG3 HTTP API",
     "main": "dist/trongrid.node.js",
     "scripts": {
@@ -13,7 +13,8 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.0.0",
-        "babel-runtime": "^6.26.0"
+        "babel-runtime": "^6.26.0",
+        "injectpromise": "^1.0.0"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0",
@@ -28,7 +29,7 @@
         "babel-plugin-source-map-support": "^2.0.1",
         "chai": "^4.2.0",
         "mocha": "^5.2.0",
-        "tronweb": "^2.3.4",
+        "tronweb": "^2.7.2",
         "webpack": "^4.17.2",
         "webpack-cli": "^3.1.0",
         "webpack-node-externals": "^1.7.2"
