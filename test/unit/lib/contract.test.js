@@ -124,6 +124,19 @@ describe('#contract functional unit test', function () {
             contract.emitNow(accounts.hex[1], 1000).send({ from: accounts.hex[0] });
 
         });
+
+        it('should throw error if invalid callback function passed', async function () {
+
+            try {
+                await tronGrid.contract.watchEvent(contractAddress, 'SomeEvent', {
+                    only_data_and_fingerprint: true
+                })
+                assert(false)
+            }catch(e) {
+                assert(true)
+            }
+
+        });
     });
 
 })

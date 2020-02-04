@@ -64,6 +64,15 @@ export default class Contract extends Base {
         let lastBlock = false;
         let since = Date.now() - 1000;
 
+        if (utils.isFunction(options)) {
+            callback = options;
+            options = {};
+        }
+
+        if(!utils.isFunction(callback)) {
+            throw new Error('Invalid callback function provided');
+        }
+
         const eventWatcher = async () => {
             try {
                 options = Object.assign({
@@ -75,7 +84,14 @@ export default class Contract extends Base {
                     // filters: options.filters
                 }, options)
 
-                let events = await this.getEvents(contractAddress, options);
+                let events;
+
+                if(options.only_data_and_fingerprint) {
+                    events = await this.getEvents(contractAddress, options);
+                } else {
+                    const response = await this.getEvents(contractAddress, options);
+                    events = response.data;
+                }
 
                 const [latestEvent] = events.sort((a, b) => b.block_timestamp - a.block_timestamp);
 
