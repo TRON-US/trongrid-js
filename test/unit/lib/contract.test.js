@@ -125,6 +125,14 @@ describe('#contract functional unit test', function () {
 
         });
 
+
+        it('should return start property to restart the listener for an event', async function () {
+            const watcher = await tronGrid.contract.watchEvent(contractAddress, 'SomeEvent', {
+                only_data_and_fingerprint: true
+            })
+            assert.isFunction(watcher.start)
+        });
+
         it('should throw error if invalid callback function passed', async function () {
 
             try {

@@ -126,11 +126,10 @@ export default class Contract extends Base {
             }, 3000);
         };
 
-        await eventWatcher();
         bindListener();
 
         return {
-            start: bindListener(),
+            start: bindListener,
             stop: () => {
                 if (!listener)
                     return;
