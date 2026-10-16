@@ -1,6 +1,6 @@
 # What is TronGridJS?
 
-__[TronGridJS - Developer Document](https://developers.tron.network/docs/trongrid-js-intro)__
+__TronGridJS documentation: [Usage](#usage) | [Supported APIs](#supported-apis) | [TronGrid V1 API reference](https://developers.tron.network/reference/trongrid-v1-api-overview)__
 
 TronGridJS is a Javascript library for utilizing TronGrid APIs to retrieve blockchain data from the Tron network.
 
@@ -57,7 +57,7 @@ It substitutes the following JavaTron API:
 * /wallet/getaccount
 
 
-#### `tronGrid.account.getTransations(accountAddress, options)`
+#### `tronGrid.account.getTransactions(accountAddress, options)`
 It returns all the transactions related to the account at `accountAddress`.
 
 Options:
